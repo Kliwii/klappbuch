@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klappbuch</title>
+    <title>mixmatch</title>
 
     <link rel="stylesheet" type="text/css" href="css/site.css">
   </head>
@@ -13,35 +13,39 @@
     <div class="container">
 
       <div class="videoContainerCam">
-        <video autoplay="true" class="videoElementCam" id="videoCam" data-index="0" autoplay loop muted>
+        <video autoplay="true" class="videoElementCam" id="videoCam" data-index="0" autoplay loop playsinline muted>
           <source src="img/videos/MPS33.mp4" type="video/mp4" />
         </video>
       </div>
       
       <div class="videoContainer">
-        <video autoplay="true" class="videoElement" id="videoElement1" data-index="1" autoplay loop muted>
+        <video autoplay="true" class="videoElement" id="videoElement1" data-index="1" autoplay loop playsinline muted>
           <source src="img/videos/MPS33.mp4" type="video/mp4" />
         </video>
       </div>
       <div class="videoContainer">
-        <video autoplay="true" class="videoElement" id="videoElement2" data-index="2" autoplay loop muted>
+        <video autoplay="true" class="videoElement" id="videoElement2" data-index="2" autoplay loop playsinline muted>
           <source src="img/videos/MPS32.mp4" type="video/mp4" />
         </video>
       </div>
       <div class="videoContainer">
-        <video autoplay="true" class="videoElement" id="videoElement3" data-index="3" autoplay loop muted>
+        <video autoplay="true" class="videoElement" id="videoElement3" data-index="3" autoplay loop playsinline muted>
           <source src="img/videos/MPS31.mp4" type="video/mp4" />
         </video>
       </div>
 
-      <div class="videoOverlay"></div>
+      <div class="videoContainerRecording">
+        <video id="recording" autoplay loop playsinline muted></video>
+        <a id="downloadButton" class="button">Download</a>
+        <div id="log"></div>
+      </div>
 
     </div>
     
     <div class="controls">
       <button class="button buttonChange" title="Change Camera"><i data-feather="camera"></i></button>
       <button class="button buttonFullscreen" title="Maximize"><i data-feather="maximize"></i></button>
-      <button class="button buttonRecord" title="Record"></button>
+      <button id="startButton" class="button buttonRecord" title="Record"></button>
     </div>
 
     
