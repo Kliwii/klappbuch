@@ -1,14 +1,13 @@
 
-var takeSnapshotUI = createClickFeedbackUI();
-
 var video;
+var videoContainer = document.querySelector('.videoContainerCam');
 var buttonChange; 
 var buttonFullscreen;
 var recordButton;
 var controls = document.querySelector('.controls');
 var videos = document.querySelectorAll('.videoElement');
 var amountOfCameras = 0;
-var currentFacingMode = 'environment';
+var currentFacingMode = 'user';
 
 document.addEventListener('DOMContentLoaded', function(event) {
   // do some WebRTC checks before creating the interface
@@ -64,16 +63,7 @@ function initCameraUI() {
   toggleFullScreenButton = document.querySelector('.buttonFullscreen');
   switchCameraButton = document.querySelector('.buttonChange');
 
-  // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
-  // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
-
-  recordButton.addEventListener('click', function() {
-    takeSnapshotUI();
-    takeSnapshot();
-  });
-
-  // -- fullscreen part
-
+  //Fullscreen
   function fullScreenChange() {
     if (screenfull.isFullscreen) {
       toggleFullScreenButton.setAttribute('aria-pressed', true);
@@ -102,7 +92,7 @@ function initCameraUI() {
     console.log("iOS doesn't support fullscreen (yet)");
   }
 
-  // -- switch camera part
+  //Switch Cameras 
   if (amountOfCameras > 1) {
     switchCameraButton.style.display = 'block';
 
@@ -113,61 +103,23 @@ function initCameraUI() {
       initCameraStream();
     });
   }
-
-
-  /*
-  // Listen for orientation changes to make sure buttons stay at the side of the
-  // physical (and virtual) buttons (opposite of camera) most of the layout change is done by CSS media queries
-  // https://www.sitepoint.com/introducing-screen-orientation-api/
-  // https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
-  window.addEventListener(
-    'orientationchange',
-    function() {
-      // iOS doesn't have screen.orientation, so fallback to window.orientation.
-      // screen.orientation will
-      if (screen.orientation) angle = screen.orientation.angle;
-      else angle = window.orientation;
-
-      var guiControls = document.getElementById('gui_controls').classList;
-      var vidContainer = document.getElementById('vid_container').classList;
-
-      if (angle == 270 || angle == -90) {
-        guiControls.add('left');
-        vidContainer.add('left');
-      } else {
-        if (guiControls.contains('left')) guiControls.remove('left');
-        if (vidContainer.contains('left')) vidContainer.remove('left');
-      }
-
-      //0   portrait-primary
-      //180 portrait-secondary device is down under
-      //90  landscape-primary  buttons at the right
-      //270 landscape-secondary buttons at the left
-    },
-    false,
-  );
-
-  */
 }
 
-// https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
 function initCameraStream() {
-  // stop any active streams in the window
+  //Stop any active streams in the window
   if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
-      track.stop();
-    });
+    window.stream.getTracks().forEach(track => track.stop())
   }
 
-  // we ask for a square resolution, it will cropped on top (landscape)
-  // or cropped at the sides (landscape)
-  var size = 1280;
+  //Stream Resolution
+  var sizeW = 1080;
+  var sizeH = 640;
 
   var constraints = {
     audio: false,
     video: {
-      width: { ideal: size },
-      height: { ideal: size },
+      width: { ideal: sizeW },
+      height: { ideal: sizeH },
       //width: { min: 1024, ideal: window.innerWidth, max: 1920 },
       //height: { min: 776, ideal: window.innerHeight, max: 1080 },
       facingMode: currentFacingMode,
@@ -199,89 +151,44 @@ function initCameraStream() {
     //return navigator.mediaDevices.enumerateDevices();
   }
 
-  function handleError(error) {
-    console.log(error);
+  //Show Permission Message if permission is denied
+  function handleError(err) {
+    console.log(err);
 
-    //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-    if (error === 'PermissionDeniedError') {
+    if (err.name == "NotFoundError" || err.name == "DevicesNotFoundError") {
+      //required track is missing 
+    } else if (err.name == "NotReadableError" || err.name == "TrackStartError") {
+      //webcam or mic are already in use 
+      //alert('Webcam or mic already in use');
+    } else if (err.name == "OverconstrainedError" || err.name == "ConstraintNotSatisfiedError") {
+      //constraints can not be satisfied by avb. devices 
+    } else if (err.name == "NotAllowedError" || err.name == "PermissionDeniedError") {
+      //permission denied in browser
       alert('Permission denied. Please refresh and give permission.');
+    } else if (err.name == "TypeError" || err.name == "TypeError") {
+      //empty constraints object 
+    } else {
+      //other errors 
     }
   }
 }
 
-function takeSnapshot() {
-  // if you'd like to show the canvas add it to the DOM
-  var canvas = document.createElement('canvas');
-
-  var width = video.videoWidth;
-  var height = video.videoHeight;
-
-  canvas.width = width;
-  canvas.height = height;
-
-  context = canvas.getContext('2d');
-  context.drawImage(video, 0, 0, width, height);
-
-  // polyfil if needed https://github.com/blueimp/JavaScript-Canvas-to-Blob
-
-  // https://developers.google.com/web/fundamentals/primers/promises
-  // https://stackoverflow.com/questions/42458849/access-blob-value-outside-of-canvas-toblob-async-function
-  function getCanvasBlob(canvas) {
-    return new Promise(function(resolve, reject) {
-      canvas.toBlob(function(blob) {
-        resolve(blob);
-      }, 'image/jpeg');
-    });
-  }
-
-  // some API's (like Azure Custom Vision) need a blob with image data
-  getCanvasBlob(canvas).then(function(blob) {
-    // do something with the image blob
-  });
-}
-
-// https://hackernoon.com/how-to-use-javascript-closures-with-confidence-85cd1f841a6b
-// closure; store this in a variable and call the variable as function
-// eg. var takeSnapshotUI = createClickFeedbackUI();
-// takeSnapshotUI();
-
-function createClickFeedbackUI() {
-  // in order to give feedback that we actually pressed a button.
-  // we trigger a almost black overlay
-  var overlay = document.querySelector('.videoOverlay'); //.style.display;
-
-  // sound feedback
-  var sndClick = new Howl({ src: ['snd/click.mp3'] });
-
-  var overlayVisibility = false;
-  var timeOut = 80;
-
-  function setFalseAgain() {
-    overlayVisibility = false;
-    overlay.style.display = 'none';
-  }
-
-  return function() {
-    if (overlayVisibility == false) {
-      sndClick.play();
-      overlayVisibility = true;
-      overlay.style.display = 'block';
-      setTimeout(setFalseAgain, timeOut);
-    }
-  };
-}
-
-
-//Change Webcam Position (Setting z-index)
+//Change Webcam Position 
 for (let i = 0; i < videos.length; i++) {
   videos[i].addEventListener("dblclick", function(constraints) {
     console.log(this.dataset.index);
 
-    videos[0].style.zIndex = "20";
-    videos[1].style.zIndex = "20";
-    videos[2].style.zIndex = "20";
-    this.style.zIndex = "5";
+    if (this.dataset.index == 1) {
+      videoContainer.style.top = "5%";
+    }
 
+    if (this.dataset.index == 2) {
+      videoContainer.style.top = "35%";
+    }
+
+    if (this.dataset.index == 3) {
+      videoContainer.style.top = "65%";
+    }
   });
 }
 
@@ -307,3 +214,102 @@ videoElement3.addEventListener("click", function(){
 
 //Icons
 feather.replace()
+
+//
+//Recording
+//
+let preview = document.getElementById("videoCam");
+let recording = document.getElementById("recording");
+let startButton = document.getElementById("startButton");
+let downloadButton = document.getElementById("downloadButton");
+let logElement = document.getElementById("log");
+
+//Recording Time of the Video
+let recordingTimeMS = 4000;
+
+//Log information for the user
+function log(msg) {
+  logElement.innerHTML += msg + "\n";
+}
+
+function wait(delayInMS) {
+  return new Promise(resolve => setTimeout(resolve, delayInMS));
+}
+
+//Starting the recording process
+function startRecording(stream, lengthInMS) {
+  //Create new MediaRecorder, which handles recording the input stream
+  let recorder = new MediaRecorder(stream);
+  //Create empty array for Blobs of media data from the ondataavailable event handler
+  let data = [];
+
+  //Event handler pushes Blob onto the data array (once data is available)
+  recorder.ondataavailable = event => data.push(event.data);
+  //Starts recording
+  recorder.start();
+  log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
+
+  //New Promise, resolves when Media Recorder is stopped
+  let stopped = new Promise((resolve, reject) => {
+    recorder.onstop = resolve;
+    recorder.onerror = event => reject(event.name);
+  });
+
+  //New Promise, resolves when specified number of milliseconds have elapsed and stops Media Recorder
+  let recorded = wait(lengthInMS).then(
+    () => recorder.state == "recording" && recorder.stop()
+  );
+
+  //New Promise, resolves when both promises (stopped and recorded) have resolved. The Array data is then returned by startRecording() to its caller
+  return Promise.all([
+    stopped,
+    recorded
+  ])
+  .then(() => data);
+}
+
+//Stops the input media
+function stop(stream) {
+  stream.getTracks().forEach(track => track.stop());
+}
+
+//Getting an input stream and setting up the recorder
+startButton.addEventListener("click", function() {
+  //New MediaStream is requested which gets recorded later
+  navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: {
+      width: { ideal: 1080 },
+      height: { ideal: 640 },
+      //width: { min: 1024, ideal: window.innerWidth, max: 1920 },
+      //height: { min: 776, ideal: window.innerHeight, max: 1080 },
+      facingMode: currentFacingMode,
+    } 
+  //srcObject set to stream, download button link reffers to stream, polyfills for moz, New Promise which resolves when preview video starts to play 
+  }).then(stream => {
+    preview.srcObject = stream;
+    downloadButton.href = stream;
+    preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+    return new Promise(resolve => preview.onplaying = resolve);
+  //When video begins to play startRecording() is called
+  }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
+  //The array of recorded media data Blobs (recordedChunks) are merged into a single Blob with MIME type "video/webm". 
+  .then (recordedChunks => {
+    let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+    //URL that references the Blob is created and assigned to the recorded video and the download button
+    recording.src = URL.createObjectURL(recordedBlob);  
+    downloadButton.href = recording.src;
+    downloadButton.download = "mixmatch.mp4";
+
+    //Size and Type of the recorded Media is logged
+    log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
+  })
+  .catch(log);
+}, false);
+
+//Calls the stop() function
+/*
+stopButton.addEventListener("click", function() {
+stop(preview.srcObject);
+}, false);
+*/

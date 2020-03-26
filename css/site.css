@@ -16,6 +16,21 @@ html, body, .viewport {
   margin: 0;
 }
 
+.button {
+  display: block;
+  cursor: pointer;
+  width: 270px;
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  color: #0e0e0e;
+  background: #ddda2e;
+  text-decoration: none;
+}
+.button:active {
+  color: #0e0e0e;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -28,9 +43,19 @@ html, body, .viewport {
 }
 .container .videoContainer {
   width: 100%;
-  height: 34%;
+  height: 30%;
   overflow: hidden;
-  position: relative;
+  position: absolute;
+  z-index: 5;
+}
+.container .videoContainer:nth-child(2) {
+  top: 0;
+}
+.container .videoContainer:nth-child(3) {
+  top: 30%;
+}
+.container .videoContainer:nth-child(4) {
+  top: 60%;
 }
 .container .videoContainer .videoElement {
   position: absolute;
@@ -43,16 +68,14 @@ html, body, .viewport {
   width: auto;
   height: 100%;
   overflow: hidden;
-  z-index: 20;
-}
-.container .videoContainer #videoElement1 {
-  z-index: 5;
 }
 .container .videoContainerCam {
   width: 100%;
-  height: 100%;
+  height: 30%;
   overflow: hidden;
   position: absolute;
+  z-index: 10;
+  top: 0;
 }
 .container .videoContainerCam .videoElementCam {
   position: absolute;
@@ -65,19 +88,24 @@ html, body, .viewport {
   width: auto;
   height: 100%;
   overflow: hidden;
-  z-index: 10;
 }
-.container .videoOverlay {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 100;
-  background-color: #0e0e0e;
+.container .videoContainerRecording {
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  z-index: 40;
+  margin-bottom: 20px;
+}
+.container .videoContainerRecording #recording {
+  width: 270px;
+  height: 160px;
+  border: 1px solid #ddda2e;
+}
+.container .videoContainerRecording #log {
+  width: 270px;
+  margin-top: 20px;
+  padding: 20px;
+  background: #ddda2e;
 }
 
 .screenshot-image {
@@ -111,6 +139,9 @@ html, body, .viewport {
   text-align: center;
   margin: 0 auto;
   padding: 0;
+  position: absolute;
+  top: 11px;
+  left: 11px;
 }
 .controls .buttonChange {
   background: #0e0e0e;
@@ -134,8 +165,8 @@ html, body, .viewport {
   background: red;
   border: 2px solid red;
   position: absolute;
-  left: calc(50% - 40px);
-  bottom: 50px;
+  left: calc(50% - 50px);
+  bottom: 20px;
 }
 
 canvas {
@@ -147,6 +178,25 @@ canvas {
 .hidden {
   display: none;
   opacity: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .container .videoContainerRecording {
+    position: fixed;
+    top: 80px;
+  }
+  .container .videoContainer:nth-child(2) {
+    top: 5%;
+  }
+  .container .videoContainer:nth-child(3) {
+    top: 35%;
+  }
+  .container .videoContainer:nth-child(4) {
+    top: 65%;
+  }
+  .container .videoContainerCam {
+    top: 5%;
+  }
 }
 
 /*# sourceMappingURL=site.css.map */

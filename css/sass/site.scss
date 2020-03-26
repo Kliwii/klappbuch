@@ -16,6 +16,22 @@ html, body, .viewport {
     margin: 0;
 }
 
+.button {
+    display: block;
+    cursor: pointer;
+    width: 270px;
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    color: #0e0e0e;
+    background: rgb(221, 218, 46);
+    text-decoration: none;
+
+    &:active {
+        color: #0e0e0e;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -28,9 +44,22 @@ html, body, .viewport {
 
     .videoContainer {
         width: 100%; 
-        height: 34%; 
+        height: 30%; 
         overflow: hidden;
-        position: relative;
+        position: absolute;
+        z-index: 5;
+
+        &:nth-child(2) {
+            top: 0;
+        }
+
+        &:nth-child(3) {
+            top: 30%;
+        }
+
+        &:nth-child(4) {
+            top: 60%;
+        }
 
         .videoElement {
             position: absolute;
@@ -43,20 +72,16 @@ html, body, .viewport {
             width: auto;
             height: 100%;
             overflow: hidden;
-            z-index: 20;
         }
-
-        #videoElement1 {
-            z-index: 5;
-        }
-
     }
     
     .videoContainerCam {
         width: 100%;
-        height: 100%;
+        height: 30%;
         overflow: hidden;
         position: absolute;
+        z-index: 10;
+        top: 0;
 
         .videoElementCam {
             position: absolute;
@@ -69,22 +94,28 @@ html, body, .viewport {
             width: auto;
             height: 100%;
             overflow: hidden;
-            z-index: 10;
         }
     }
 
-    .videoOverlay {
-        position: fixed;
-        display: none;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+    .videoContainerRecording {
+        position: absolute;
+        top: 100%;
+        left: 20px;
+        z-index: 40;
+        margin-bottom: 20px;
 
-        z-index: 100;
-        background-color: #0e0e0e;
+        #recording {
+            width: 270px;
+            height: 160px;
+            border: 1px solid rgb(221, 218, 46);
+        }
+
+        #log {
+            width: 270px;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgb(221, 218, 46);
+        }
     }
 }
 
@@ -121,6 +152,9 @@ html, body, .viewport {
             text-align: center;
             margin: 0 auto;
             padding: 0;
+            position: absolute;
+            top: 11px;
+            left: 11px;
         }
     }
 
@@ -148,8 +182,8 @@ html, body, .viewport {
         background: red;
         border: 2px solid red;
         position: absolute;
-        left: calc(50% - 40px);
-        bottom: 50px;
+        left: calc(50% - 50px);
+        bottom: 20px;
     }
 }
 
@@ -162,4 +196,34 @@ canvas {
 .hidden {
     display: none;
     opacity: 0;
+}
+
+@media only screen and (min-width: 768px) {
+
+    .container {
+
+        .videoContainerRecording {
+            position: fixed;
+            top: 80px
+        }
+
+        .videoContainer {
+    
+            &:nth-child(2) {
+                top: 5%;
+            }
+    
+            &:nth-child(3) {
+                top: 35%;
+            }
+    
+            &:nth-child(4) {
+                top: 65%;
+            }
+        }
+
+        .videoContainerCam {
+            top: 5%;
+        }
+    }
 }
