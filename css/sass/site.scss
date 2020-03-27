@@ -206,24 +206,5 @@ canvas {
             position: fixed;
             top: 80px
         }
-
-        .videoContainer {
-    
-            &:nth-child(2) {
-                top: 5%;
-            }
-    
-            &:nth-child(3) {
-                top: 35%;
-            }
-    
-            &:nth-child(4) {
-                top: 65%;
-            }
-        }
-
-        .videoContainerCam {
-            top: 5%;
-        }
     }
 }
