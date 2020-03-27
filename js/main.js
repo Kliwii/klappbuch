@@ -148,7 +148,7 @@ function initCameraStream() {
     str = JSON.stringify(settings, null, 4);
     console.log('settings ' + str);
 
-    //return navigator.mediaDevices.enumerateDevices();
+    return navigator.mediaDevices.enumerateDevices();
   }
 
   //Show Permission Message if permission is denied
@@ -179,15 +179,15 @@ for (let i = 0; i < videos.length; i++) {
     console.log(this.dataset.index);
 
     if (this.dataset.index == 1) {
-      videoContainer.style.top = "5%";
+      videoContainer.style.top = "0%";
     }
 
     if (this.dataset.index == 2) {
-      videoContainer.style.top = "35%";
+      videoContainer.style.top = "30%";
     }
 
     if (this.dataset.index == 3) {
-      videoContainer.style.top = "65%";
+      videoContainer.style.top = "60%";
     }
   });
 }

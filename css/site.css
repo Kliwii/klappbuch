@@ -185,18 +185,6 @@ canvas {
     position: fixed;
     top: 80px;
   }
-  .container .videoContainer:nth-child(2) {
-    top: 5%;
-  }
-  .container .videoContainer:nth-child(3) {
-    top: 35%;
-  }
-  .container .videoContainer:nth-child(4) {
-    top: 65%;
-  }
-  .container .videoContainerCam {
-    top: 5%;
-  }
 }
 
 /*# sourceMappingURL=site.css.map */
