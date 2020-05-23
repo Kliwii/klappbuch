@@ -1,0 +1,12 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /uploads/{videoId} {
+      allow write: if request.resource.size < 5 * 1024 * 1024 
+      && request.resource.contentType.matches('video/mp4');
+    }
+    match /videos/{allVideos=**} {
+      allow read;
+    }
+  }
+}
