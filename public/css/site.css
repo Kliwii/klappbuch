@@ -1,0 +1,346 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background: #0e0e0e;
+}
+
+html, body, .viewport {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: #0e0e0e;
+}
+.container .videoContainer {
+  width: 100%;
+  height: 30%;
+  overflow: hidden;
+  position: absolute;
+  z-index: 5;
+}
+.container .videoContainer:nth-child(2) {
+  top: 0;
+}
+.container .videoContainer:nth-child(3) {
+  top: 30%;
+}
+.container .videoContainer:nth-child(4) {
+  top: 60%;
+}
+.container .videoContainer .videoElement {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: 100%;
+  overflow: hidden;
+}
+.container .videoContainer .videoButton {
+  display: none;
+  opacity: 0;
+}
+.container .videoContainer .seekbar {
+  cursor: pointer;
+  height: 10px;
+  outline: 1px solid #000;
+  overflow: hidden;
+  position: absolute;
+  top: 30px;
+  left: 100px;
+  width: 200px;
+}
+.container .videoContainer .seekbar span {
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 10px;
+  width: 0px;
+}
+.container .videoContainerCam .videoElementCam {
+  width: 270px;
+  height: 160px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border: 1px solid #ddda2e;
+  opacity: 0;
+}
+.container .videoContainerCanvas .videoElementCanvas {
+  width: 270px;
+  height: 160px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border: 1px solid #ddda2e;
+  opacity: 0;
+}
+.container .videoContainerOutput {
+  width: 100%;
+  height: 30%;
+  overflow: hidden;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+}
+.container .videoContainerOutput .videoElementOutput {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: 100%;
+  overflow: hidden;
+}
+.container .videoContainerRecording {
+  width: 100%;
+  height: 30%;
+  overflow: hidden;
+  position: absolute;
+  z-index: 5;
+  top: 0;
+}
+.container .videoContainerRecording #recording {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: 100%;
+  overflow: hidden;
+}
+.container .uploadNotice {
+  display: none;
+  opacity: 0;
+  z-index: 200;
+  width: 100%;
+  height: 100%;
+  color: beige;
+  text-align: center;
+  background: rgba(36, 36, 36, 0.8);
+}
+.container .uploadNotice h2 {
+  margin: 80px 20px 0 20px;
+}
+.container .uploadNotice p {
+  margin: 20px 20px 0 20px;
+}
+.container .uploadNotice #uploadBar {
+  position: absolute;
+  bottom: 220px;
+  left: 20px;
+  right: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80%;
+  margin: 20px;
+}
+.container .uploadNotice .uploadVideo {
+  position: absolute;
+  bottom: 140px;
+  left: 40px;
+  right: 40px;
+  padding: 20px;
+  color: #242424;
+  border-radius: 40px;
+  background: #ddda2e;
+}
+.container .uploadNotice .uploadNoticeClose {
+  position: absolute;
+  color: beige;
+  bottom: 40px;
+  left: calc(50% - 25px);
+}
+.container .uploadNotice .uploadNoticeClose img {
+  width: 50px;
+  height: 50px;
+}
+
+.screenshot-image {
+  width: 150px;
+  height: 90px;
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  background: beige;
+  z-index: 30;
+}
+
+.video-options {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 30;
+}
+
+.controls .button {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 100%;
+  margin: 10px;
+  z-index: 50;
+}
+.controls .button img {
+  max-width: 100%;
+  height: auto;
+  color: white;
+}
+.controls .buttonChange {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.controls .buttonFullscreen {
+  position: absolute;
+  bottom: 20px;
+  left: 80px;
+}
+.controls .buttonFullscreen img {
+  width: 100%;
+  height: 100%;
+}
+.controls .buttonEdit {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+.controls .buttonAbout {
+  position: absolute;
+  bottom: 20px;
+  right: 80px;
+}
+.controls .buttonRecord {
+  height: 80px;
+  width: 80px;
+  background: red;
+  border: 2px solid red;
+  position: absolute;
+  left: calc(50% - 50px);
+  bottom: 20px;
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.editControls {
+  display: none;
+  opacity: 0;
+}
+.editControls .muteVideo {
+  width: 50px;
+  height: 50px;
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+.editControls .reportVideo {
+  width: 50px;
+  height: 50px;
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+.editControls .uploadVideoNotice {
+  width: 50px;
+  height: 50px;
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+.editControls .showLiveVideo {
+  display: none;
+  opacity: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .container .videoContainerRecordingControls {
+    top: 20px;
+  }
+  .container .videoContainerCam .videoElementCam {
+    left: auto;
+    right: 20px;
+    top: 380px;
+  }
+  .container .videoContainerCanvas .videoElementCanvas {
+    left: auto;
+    right: 20px;
+    top: 20px;
+  }
+}
+/* mouse, touch pad */
+@media (hover: hover) and (pointer: fine) {
+  .container .videoContainer .videoButton {
+    display: block;
+    opacity: 1;
+    background: none;
+    color: beige;
+    cursor: pointer;
+    border: none;
+    position: absolute;
+    top: calc(50% - 20px);
+    text-align: center;
+    z-index: 100;
+  }
+  .container .videoContainer .videoButtonRight {
+    right: calc(50% - 320px);
+  }
+  .container .videoContainer .videoButtonLeft {
+    left: calc(50% - 320px);
+  }
+
+  .editControls .showLiveVideo {
+    display: block;
+    opacity: 1;
+    width: 50px;
+    height: 50px;
+    z-index: 100;
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+  }
+  .editControls .showLiveVideo img {
+    width: 100%;
+    height: 100%;
+  }
+}
+@media only screen and (hover: hover) and (pointer: fine) and (max-width: 768px) {
+  .container .videoContainer .videoButtonRight {
+    right: calc(50% - 240px);
+  }
+  .container .videoContainer .videoButtonLeft {
+    left: calc(50% - 240px);
+  }
+}
+
+/*# sourceMappingURL=site.css.map */
