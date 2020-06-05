@@ -23,7 +23,9 @@ let uploadVideoNotice = document.getElementById("uploadVideoNotice");
 let uploadVideo = document.getElementById("uploadVideo");
 let uploadNotice = document.getElementById("uploadNotice");
 let uploadNoticeClose = document.getElementById("uploadNoticeClose");
+let uploadNoticeCancel = document.getElementById("uploadNoticeCancel");
 let uploadBar = document.getElementById("uploadBar");
+let recordStatus = document.getElementById("recordStatus");
 //let logElement = document.getElementById("log");
 let audioStream;
 let webcamPosition;
@@ -249,11 +251,37 @@ function wait(delayInMS) {
   return new Promise(resolve => setTimeout(resolve, delayInMS));
 }
 
-startButton.addEventListener("click", function() {
-  startRecording(mixedStream, recordingTimeMS)
-});
+startButton.addEventListener("click", startRecordingProcess);
+function startRecordingProcess() {
+  startButton.className += " active";
+  videoContainerRecording.style.zIndex = "5";
+  //Remove Event Listener until video recorded
+  startButton.removeEventListener("click", startRecordingProcess);
+
+  startTimer();
+};
+
+//Recording Countdown
+let timerDisplay = document.getElementById("recordTimer");
+
+function startTimer() {
+  let timeleft = 3;
+  timerDisplay.innerHTML = 4;
+  let recordTimer = setInterval(function(){
+    if(timeleft <= 0){
+      clearInterval(recordTimer);
+      timerDisplay.innerHTML = "";
+      startRecording(mixedStream, recordingTimeMS);
+    } else {
+      timerDisplay.innerHTML = timeleft;
+    }
+    timeleft -= 1;
+  }, 1000);
+};
 
 function startRecording(stream, lengthInMS) {
+  recordStatus.style.display = "block";
+  recordStatus.style.opacity = "1";
   //Create new MediaRecorder, which handles recording the input stream
   let options = { mimeType: 'video/webm' };
   let recorder = new MediaRecorder(stream, options);
@@ -286,12 +314,19 @@ function startRecording(stream, lengthInMS) {
 }
 
 function handleRecordingData(recordedChunks) {
+  recordStatus.style.display = "none";
+  recordStatus.style.opacity = "0";
+  
   let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
   //URL that references the Blob is created and assigned to the recorded video and the download button
   recording.src = URL.createObjectURL(recordedBlob);  
   //downloadButton.href = recording.src;
   //downloadButton.download = "mixmatch.mp4";
   videoContainerRecording.style.zIndex = "15";
+  startButton.classList.remove("active");
+
+  //Adding Event Listener again, after Recording is complete
+  startButton.addEventListener("click", startRecordingProcess);
 
   uploadVideo.addEventListener("click", function() {
     uploadToStorage(recordedBlob);
@@ -304,13 +339,17 @@ function handleRecordingData(recordedChunks) {
 //
 //Upload Notice
 //
-
 uploadVideoNotice.addEventListener("click", function() {
   uploadNotice.style.display = "block";
   uploadNotice.style.opacity = "1";
 });
 
 uploadNoticeClose.addEventListener("click", function() {
+  uploadNotice.style.display = "none";
+  uploadNotice.style.opacity = "0";
+});
+
+uploadNoticeCancel.addEventListener("click", function() {
   uploadNotice.style.display = "none";
   uploadNotice.style.opacity = "0";
 });
@@ -345,8 +384,10 @@ function uploadToStorage(recordedBlob) {
     return u
   }
 
+  let videoID = guid();
+
   // Upload file and metadata to the object 'uploads/mixmatch.mp4'
-  var uploadTask = storageRef.child('uploads/' + 'mixmatch-slice' + window.webcamPosition + '-' + guid() + '.mp4').put(file, metadata);
+  var uploadTask = storageRef.child('uploads/' + 'mixmatch-slice' + window.webcamPosition + '-' + videoID + '.mp4').put(file, metadata);
 
   // Listen for state changes, errors, and completion of the upload.
   uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
@@ -355,6 +396,9 @@ function uploadToStorage(recordedBlob) {
       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       uploadBar.value = progress;
       console.log('Upload is ' + progress + '% done');
+      if (progress == 100) {
+        uploadSuccessful();
+      }
       switch (snapshot.state) {
         case firebase.storage.TaskState.PAUSED: // or 'paused'
           console.log('Upload is paused');
@@ -389,6 +433,20 @@ function uploadToStorage(recordedBlob) {
       //console.log('File available at', downloadURL);
     });
   });
+
+  //Display ID
+  function uploadSuccessful() {
+    let uploadID = document.getElementById("uploadID");
+    let contentID = document.createTextNode(videoID);
+    uploadID.appendChild(contentID);
+
+    let uploadNoticePage1 = document.getElementById("uploadNoticePage1");
+    let uploadNoticePage2 = document.getElementById("uploadNoticePage2");
+    uploadNoticePage1.style.display = "none";
+    uploadNoticePage1.style.opacity = "0";
+    uploadNoticePage2.style.display = "block";
+    uploadNoticePage2.style.opacity = "1";
+  };
 }
 
 //Change videoContainerOutput and videoContainerRecording Position 
@@ -637,11 +695,6 @@ function displayVideos3(videoRef) {
 */
 
 //
-//Icons
-//
-feather.replace()
-
-//
 //Sound - Mute Option
 //
 for (let i = 0; i < muteVideoButton.length; i++) {
@@ -687,7 +740,6 @@ for (let i = 0; i < videos.length; i++) {
 //
 let buttonEdit = document.getElementById("buttonEdit");
 let editControls = document.querySelectorAll('.editControls');
-let reportVideo = document.querySelectorAll('.reportVideo');
 let editActive = false;
 
 buttonEdit.addEventListener('click', function() {
@@ -726,3 +778,143 @@ function showLivefeed(el,d){
 showLiveVideoButton.addEventListener("click", function(){
   videoContainerRecording.style.zIndex = "5";
 });
+
+//
+//Walktrough Carousel
+//
+let slideIndex = 1;
+let walkthrough = document.getElementById("walkthrough");
+let walkthroughNext = document.getElementById("walkthroughNext");
+let walkthroughClose = document.getElementById("walkthroughClose");
+
+walkthroughNext.addEventListener("click", nextSlide); 
+walkthroughClose.addEventListener("click", closeWalkthrough);
+
+function nextSlide() {
+  let walkthroughDots = document.querySelectorAll(".dot");
+  var i;
+  var slides = document.querySelectorAll(".walkthroughScreen"); 
+  if (slideIndex == slides.length - 1) {
+    walkthroughNext.innerHTML = "Start";
+  }
+  if (slideIndex == slides.length) {
+    closeWalkthrough();
+    return;
+  }
+
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < walkthroughDots.length; i++) {
+    walkthroughDots[i].className = walkthroughDots[i].className.replace(" active", "");
+    walkthroughDots[i].style.background = "rgba(14, 14, 14, 0.25)";
+  }
+
+  if ((slideIndex == 0) || (slideIndex == 3)) {
+    walkthroughClose.style.color = "#e27c5d";
+    walkthroughNext.style.color = "#e27c5d";
+    walkthroughDots[slideIndex].style.background = "#e27c5d";
+  } else if ((slideIndex == 1) || (slideIndex == 4)) {
+    walkthroughClose.style.color = "#44a8a0";
+    walkthroughNext.style.color = "#44a8a0";
+    walkthroughDots[slideIndex].style.background = "#44a8a0";
+  } else {
+    walkthroughClose.style.color = "#3c636e";
+    walkthroughNext.style.color = "#3c636e";
+    walkthroughDots[slideIndex].style.background = "#3c636e";
+  }
+
+  slides[slideIndex].style.display = "block";
+  slides[slideIndex].style.opacity = "1";
+  walkthroughDots[slideIndex].className += " active";
+  slideIndex += 1;
+};
+
+function closeWalkthrough() {
+  walkthrough.style.opacity = "0";
+  walkthrough.style.display = "none";
+};
+
+//
+//Report Notice
+//
+let reportNotice = document.getElementById("reportNotice");
+let reportVideoButton = document.querySelectorAll('.reportVideo');
+let reportCancel = document.getElementById("reportCancel");
+let reportSend = document.getElementById("reportSend");
+let reportClose = document.getElementById("reportClose");
+let reportNoticePage1 = document.getElementById("reportNoticePage1");
+let reportNoticePage2 = document.getElementById("reportNoticePage2");
+let reportButtonClicked;
+
+reportCancel.addEventListener("click", function() {
+  reportNotice.style.display = "none";
+  reportNotice.style.opacity = "0";
+});
+
+reportClose.addEventListener("click", function() {
+  reportNotice.style.display = "none";
+  reportNotice.style.opacity = "0";
+  reportNoticePage1.style.display = "block";
+  reportNoticePage1.style.opacity = "1";
+  reportNoticePage2.style.display = "none";
+  reportNoticePage2.style.opacity = "0";
+});
+
+for (let i = 0; i < reportVideoButton.length; i++) {
+  reportVideoButton[i].addEventListener("click", function() {
+    reportButtonClicked = i;
+    reportNotice.style.display = "block";
+    reportNotice.style.opacity = "1";
+  });
+}
+
+reportSend.addEventListener("click", function() {
+  //Save Report Data in Firebase Database
+  uploadReport(reportButtonClicked);
+  reportSuccessful();
+});
+
+function reportSuccessful() {
+  reportNoticePage1.style.display = "none";
+  reportNoticePage1.style.opacity = "0";
+  reportNoticePage2.style.display = "block";
+  reportNoticePage2.style.opacity = "1";
+}
+
+//Upload Report to Database
+let database = firebase.database();
+
+function uploadReport(sliceIndex) {
+  //Get the ID of the reported Video
+  let videoLink = videos[sliceIndex].src;
+  let parts = videoLink.split(".mp4");
+  let slicePosition = parts[0].lastIndexOf("slice");
+  let idPosition = slicePosition + 7;
+  let stringLength = parts[0].length;
+  let videoID = parts[0].slice(idPosition, stringLength);
+  let videoSlice = parts[0].slice(slicePosition, slicePosition + 6);
+
+  //Get selected Report Reason
+  let selectedReport
+  var radioButtons = document.getElementsByName('report');    
+  for(i = 0; i < radioButtons.length; i++) { 
+    if(radioButtons[i].checked) {
+      selectedReport = radioButtons[i].value; 
+    }
+  } 
+
+  //Store ID and Reason and save it to the database
+  let data = {
+    videoID: videoID,
+    slice: videoSlice,
+    reason: selectedReport
+  }
+
+  console.log(data);
+  let ref = database.ref("reports");
+  ref.push(data);
+
+};
+
+
