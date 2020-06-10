@@ -17,8 +17,10 @@
         <video autoplay="true" class="videoElementOutput" id="videoOutput" autoplay loop playsinline muted>
           <source src="" type="video/mp4" />
         </video>
-        <div class="recordTimer" id="recordTimer"></div>
-        <div class="recordStatus" id="recordStatus"></div>
+        <div class="wrapper">
+          <div class="recordTimer" id="recordTimer"></div>
+          <div class="recordStatus" id="recordStatus"></div>
+        </div>
       </div>
       
       <div class="videoContainer">
@@ -26,14 +28,16 @@
           <source src="img/videos/MPS33.mp4" type="video/mp4" />
         </video>
         <div class="editControls">
-          <div class="muteVideo" data-index="1"><img src="img/icons/mute.svg" alt="Mute"></div>
-          <div class="reportVideo" data-index="1"><img src="img/icons/report_idle.svg" alt="Report"></div>
-          <div class="seekbar">
-            <span></span>
-          </div>
+          <div class="wrapper">
+            <div class="muteVideo" data-index="1"><img src="img/icons/mute.svg" alt="Mute"></div>
+            <div class="reportVideo" data-index="1"><img src="img/icons/report_idle.svg" alt="Report"></div>
+            <div class="seekbar">
+              <span></span>
+            </div>
         </div>
-        <div class="videoButton videoButtonRight" data-index="1"><i data-feather="chevron-right"></i></div>
-        <div class="videoButton videoButtonLeft" data-index="1"><i data-feather="chevron-left"></i></div>
+        </div>
+        <div class="videoButton videoButtonRight" data-index="1"><img src="img/icons/arrow_right.svg" alt="Arrow Right"></div>
+        <div class="videoButton videoButtonLeft" data-index="1"><img src="img/icons/arrow_left.svg" alt="Arrow Left"></div>
       </div>
 
       <div class="videoContainer">
@@ -41,14 +45,16 @@
           <source src="img/videos/MPS32.mp4" type="video/mp4" />
         </video>
         <div class="editControls">
-          <div class="muteVideo" data-index="2"><img src="img/icons/mute.svg" alt="Mute"></div>
-          <div class="reportVideo" data-index="2"><img src="img/icons/report_idle.svg" alt="Report"></div>
-          <div class="seekbar">
-            <span></span>
+          <div class="wrapper">
+            <div class="muteVideo" data-index="2"><img src="img/icons/mute.svg" alt="Mute"></div>
+            <div class="reportVideo" data-index="2"><img src="img/icons/report_idle.svg" alt="Report"></div>
+            <div class="seekbar">
+              <span></span>
+            </div>
           </div>
         </div>
-        <div class="videoButton videoButtonRight"><i data-feather="chevron-right"></i></div>
-        <div class="videoButton videoButtonLeft"><i data-feather="chevron-left"></i></div>
+        <div class="videoButton videoButtonRight" data-index="2"><img src="img/icons/arrow_right.svg" alt="Arrow Right"></div>
+        <div class="videoButton videoButtonLeft" data-index="2"><img src="img/icons/arrow_left.svg" alt="Arrow Left"></div>
       </div>
 
       <div class="videoContainer">
@@ -56,14 +62,16 @@
           <source src="img/videos/MPS31.mp4" type="video/mp4" />
         </video>
         <div class="editControls">
-          <div class="muteVideo" data-index="3"><img src="img/icons/mute.svg" alt="Mute"></div>
-          <div class="reportVideo" data-index="3"><img src="img/icons/report_idle.svg" alt="Report"></div>
-          <div class="seekbar">
-            <span></span>
+          <div class="wrapper">
+            <div class="muteVideo" data-index="3"><img src="img/icons/mute.svg" alt="Mute"></div>
+            <div class="reportVideo" data-index="3"><img src="img/icons/report_idle.svg" alt="Report"></div>
+            <div class="seekbar">
+              <span></span>
+            </div>
           </div>
         </div>
-        <div class="videoButton videoButtonRight"><i data-feather="chevron-right"></i></div>
-        <div class="videoButton videoButtonLeft"><i data-feather="chevron-left"></i></div>
+        <div class="videoButton videoButtonRight" data-index="1"><img src="img/icons/arrow_right.svg" alt="Arrow Right"></div>
+        <div class="videoButton videoButtonLeft" data-index="1"><img src="img/icons/arrow_left.svg" alt="Arrow Left"></div>
       </div>
 
       <div class="videoContainerCam">
@@ -79,118 +87,150 @@
       <div class="videoContainerRecording" id="videoContainerRecording">
         <video id="recording" autoplay loop playsinline muted></video>
         <div class="editControls">
-          <div class="muteVideo"><img src="img/icons/mute.svg" alt="Mute"></div>
-          <div class="uploadVideoNotice" id="uploadVideoNotice"><img src="img/icons/share_idle.svg" alt="Upload"></div>
-          <div class="showLiveVideo" id="showLiveVideo"><img src="img/icons/x.svg" alt="Show Live Video"></div>
+          <div class="wrapper">
+            <div class="muteVideo"><img src="img/icons/mute.svg" alt="Mute"></div>
+            <div class="uploadVideoNotice" id="uploadVideoNotice"><img src="img/icons/share_idle.svg" alt="Upload"></div>
+            <div class="showLiveVideo" id="showLiveVideo"><img src="img/icons/x.svg" alt="Show Live Video"></div>
+          </div>
         </div>
       </div>
 
       <div class="uploadNotice" id="uploadNotice">
-        <div class="uploadNoticePage1" id="uploadNoticePage1">
-          <h2>Upload</h2>
-          <p>Become a part of the mixmatch application yourself.</p>
-          <progress value="0%" max="100" id="uploadBar">0%</progress>
-          <div class="button buttonLeft" id="uploadNoticeCancel">Cancel</div>
-          <div class="button buttonRight" id="uploadVideo">Upload</div>
-        </div>
-        <div class="uploadNoticePage2" id="uploadNoticePage2">
-          <h2>Upload</h2>
-          <p>Thank you for participating in the mixmatch application. If you want to delete your video afterwards, copy your video ID and save it.</p>
-          <div class="uploadID" id="uploadID"></div>
-          <div class="button buttonLeft" id="uploadNoticeClose">Close</div>
+        <div class="wrapper">
+          <div class="uploadNoticePage1" id="uploadNoticePage1">
+            <h2>Upload</h2>
+            <p>Become a part of the mixmatch application yourself.</p>
+            <div class="progressWrapper">
+              <progress value="0%" max="100" id="uploadBar">0%</progress>
+            </div>
+            <div class="button buttonLeft" id="uploadNoticeCancel">Cancel</div>
+            <div class="button buttonRight" id="uploadVideo">Upload</div>
+          </div>
+          <div class="uploadNoticePage2" id="uploadNoticePage2">
+            <h2>Upload</h2>
+            <p>Thank you for participating in the mixmatch application. If you want to delete your video afterwards, copy your video ID and save it.</p>
+            <div class="uploadID" id="uploadID"></div>
+            <div class="button buttonLeft" id="uploadNoticeClose">Close</div>
+          </div>
         </div>
       </div>
 
       <div class="reportNotice" id="reportNotice">
-        <div class="reportNoticePage1" id="reportNoticePage1">
-          <h2>Report</h2>
-          <p>Please choose one of the following reasons for reporting this video. We will review the video and handle your report confidentially and anonymously.</p>
-          <form>
-            <div>
-              <input type="radio" id="nudityReport" name="report" value="nudity">
-              <label for="nudityReport">Nudity</label>
-            </div>
-            <div>
-              <input type="radio" id="hateReport" name="report" value="hate">
-              <label for="hateReport">Hate Speech</label>
-            </div>
-            <div>
-              <input type="radio" id="violenceReport" name="report" value="violence">
-              <label for="violenceReport">Violence</label>
-            </div>
-            <div>
-              <input type="radio" id="racismReport" name="report" value="racism">
-              <label for="racismReport">Racism</label>
-            </div>
-            <div>
-              <input type="radio" id="copyrightReport" name="report" value="copyright">
-              <label for="copyrightReport">Copyright</label>
-            </div>
-            <div>
-              <input type="radio" id="spamReport" name="report" value="spam">
-              <label for="spamReport">Spam</label>
-            </div>
-          </form>
-          <button class="button buttonLeft" id="reportCancel">Cancel</button>
-          <button class="button buttonRight" id="reportSend">Send</button>
+        <div class="wrapper">
+          <div class="reportNoticePage1" id="reportNoticePage1">
+            <h2>Report</h2>
+            <p>Please choose one of the following reasons for reporting this video. We will review the video and handle your report confidentially and anonymously.</p>
+            <form>
+              <div>
+                <input type="radio" id="nudityReport" name="report" value="nudity">
+                <label for="nudityReport">Nudity</label>
+              </div>
+              <div>
+                <input type="radio" id="hateReport" name="report" value="hate">
+                <label for="hateReport">Hate Speech</label>
+              </div>
+              <div>
+                <input type="radio" id="violenceReport" name="report" value="violence">
+                <label for="violenceReport">Violence</label>
+              </div>
+              <div>
+                <input type="radio" id="racismReport" name="report" value="racism">
+                <label for="racismReport">Racism</label>
+              </div>
+              <div>
+                <input type="radio" id="copyrightReport" name="report" value="copyright">
+                <label for="copyrightReport">Copyright</label>
+              </div>
+              <div>
+                <input type="radio" id="spamReport" name="report" value="spam">
+                <label for="spamReport">Spam</label>
+              </div>
+            </form>
+            <button class="button buttonLeft" id="reportCancel">Cancel</button>
+            <button class="button buttonRight" id="reportSend">Send</button>
+          </div>
+          <div class="reportNoticePage2" id="reportNoticePage2">
+            <h2>Report</h2>
+            <p>Thank you for helping us keeping this application free of inappropriate content.</p>
+            <p>Your mixmatch team</p>
+            <button class="button buttonLeft" id="reportClose">Close</button>
+          </div>
         </div>
-        <div class="reportNoticePage2" id="reportNoticePage2">
-          <h2>Report</h2>
-          <p>Thank you for helping us keeping this application free of inappropriate content.</p>
-          <p>Your mixmatch team</p>
-          <button class="button buttonLeft" id="reportClose">Close</button>
+      </div>
+
+      <div class="aboutNotice" id="aboutNotice">
+        <div class="wrapper">
+          <div class="aboutNoticeOverview" id="aboutNoticeOverview">
+            <img class="mixmatchLogo" src="img/mixmatch.jpg" alt="Mixmatch Logo">
+            <div class="aboutButton aboutButtonImpressum" id="aboutButtonImpressum">Impressum</div>
+            <div class="aboutButton aboutButtonDatenschutz" id="aboutButtonDatenschutz">Datenschutz</div>
+            <div class="aboutButtonTutorial" id="aboutButtonTutorial">Tutorial</div>
+          </div>
+          <div class="aboutPage aboutPageImpressum" id="aboutPageImpressum">
+            <h2>Impressum</h2>
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+          </div>
+          <div class="aboutPage aboutPageDatenschutz" id="aboutPageDatenschutz">
+            <h2>Datenschutz</h2>
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+          </div>
+          <div class="button buttonCenter" id="aboutNoticeClose">Close</div>
         </div>
       </div>
 
     </div>
     
     <div class="controls">
-      <div class="button buttonChange" title="Change Camera"><img src="img/icons/selfie_idle.svg" alt="Change Camera"></div>
-      <div class="button buttonFullscreen" title="Fullscreen"><img src="img/icons/fullscreen.svg" alt="Fullscreen"></div>
-      <div class="button buttonEdit" id="buttonEdit" title="Edit"><img src="img/icons/edit_idle.svg" alt="Edit"></div>
-      <div class="button buttonAbout" title="About"><img src="img/icons/about_idle.svg" alt="About"></div>
-      <button id="startButton" class="button buttonRecord" title="Record"></button>
+      <div class="wrapper">
+        <div class="button buttonChange" title="Change Camera"><img src="img/icons/selfie_idle.svg" alt="Change Camera"></div>
+        <div class="button buttonFullscreen" title="Fullscreen"><img src="img/icons/fullscreen.svg" alt="Fullscreen"></div>
+        <div class="button buttonEdit" id="buttonEdit" title="Edit"><img src="img/icons/edit_idle.svg" alt="Edit"></div>
+        <div class="button buttonAbout" id="buttonAbout" title="About"><img src="img/icons/about_idle.svg" alt="About"></div>
+        <button id="startButton" class="button buttonRecord" title="Record"></button>
+      </div>
     </div>
 
     <div id="walkthrough" class="walkthrough">
-      <div class="walkthroughBody">
-        <ul class="walkthroughScreens">
-          <li class="walkthroughScreen walkthroughActive">
-            <h3>Welcome</h3>
-            <p>The mixmatch app is a participatory application that presents the diversity of people in a creative and playful way. The app is inspired by the mix & match books you probaly know from your childhood. The books consisted of 3 parts that could be combined in any way and allowed the creation of funny combinations. Let's see how it works.</p>
-          </li>
-          <li class="walkthroughScreen">
-            <img src="img/gifs/swipe.gif" alt="Swipe">
-            <h3>Swipe</h3>
-            <p>Discover fun matches! You can see new slices by swiping left and right.</p>
-          </li>
-          <li class="walkthroughScreen">
-            <img src="img/gifs/tap.gif" alt="Tap">
-            <h3>Tap</h3>
-            <p>To switch the camera view to a bodypart of your choice just tap on it.</p>
-          </li>
-          <li class="walkthroughScreen">
-            <img src="img/gifs/record.gif" alt="Record">
-            <h3>Record</h3>
-            <p>Press record to become a part of the application yourself. Be creative.</p>
-          </li>
-          <li class="walkthroughScreen">
-            <img src="img/gifs/edit.gif" alt="Edit">
-            <h3>Edit</h3>
-            <p>Tap on options to play (or interact) with the videos. Change the playback position, turn off/on the sound and upload your recorded video.</p>
-          </li>
-        </ul>
-      </div>
-      <div class="walkthroughNavigation">
-        <button id="walkthroughClose" class="button buttonLeft">Close</button>
-        <div class="walkthroughPagination">
-          <a class="dot active"></a>
-          <a class="dot"></a>
-          <a class="dot"></a>
-          <a class="dot"></a>
-          <a class="dot"></a>
+      <div class="wrapper">
+        <div class="walkthroughBody">
+          <ul class="walkthroughScreens">
+            <li class="walkthroughScreen walkthroughActive">
+              <h3>Welcome</h3>
+              <p>The mixmatch app is a participatory application that presents the diversity of people in a creative and playful way. The app is inspired by the mix & match books you probaly know from your childhood. The books consisted of 3 parts that could be combined in any way and allowed the creation of funny combinations. Let's see how it works.</p>
+            </li>
+            <li class="walkthroughScreen">
+              <img src="img/gifs/swipe.gif" alt="Swipe">
+              <h3>Swipe</h3>
+              <p>Discover fun matches! You can see new slices by swiping left and right.</p>
+            </li>
+            <li class="walkthroughScreen">
+              <img src="img/gifs/tap.gif" alt="Tap">
+              <h3>Tap</h3>
+              <p>To switch the camera view to a bodypart of your choice just tap on it.</p>
+            </li>
+            <li class="walkthroughScreen">
+              <img src="img/gifs/record.gif" alt="Record">
+              <h3>Record</h3>
+              <p>Press record to become a part of the application yourself. Be creative.</p>
+            </li>
+            <li class="walkthroughScreen">
+              <img src="img/gifs/edit.gif" alt="Edit">
+              <h3>Edit</h3>
+              <p>Tap on options to play (or interact) with the videos. Change the playback position, turn off/on the sound and upload your recorded video.</p>
+            </li>
+          </ul>
         </div>
-        <button id="walkthroughNext" class='button buttonRight'>Next</button>
+        <div class="walkthroughNavigation">
+          <button id="walkthroughClose" class="button buttonLeft">Close</button>
+          <div class="walkthroughPagination">
+            <a class="dot active"></a>
+            <a class="dot"></a>
+            <a class="dot"></a>
+            <a class="dot"></a>
+            <a class="dot"></a>
+          </div>
+          <button id="walkthroughNext" class='button buttonRight'>Next</button>
+        </div>
       </div>
     </div>
 

@@ -796,6 +796,8 @@ function nextSlide() {
   var slides = document.querySelectorAll(".walkthroughScreen"); 
   if (slideIndex == slides.length - 1) {
     walkthroughNext.innerHTML = "Start";
+  } else {
+    walkthroughNext.innerHTML = "Next";
   }
   if (slideIndex == slides.length) {
     closeWalkthrough();
@@ -833,6 +835,8 @@ function nextSlide() {
 function closeWalkthrough() {
   walkthrough.style.opacity = "0";
   walkthrough.style.display = "none";
+  slideIndex = 0;
+  nextSlide();
 };
 
 //
@@ -917,4 +921,52 @@ function uploadReport(sliceIndex) {
 
 };
 
+//
+//About Notice
+//
+let buttonAbout = document.getElementById("buttonAbout");
+let aboutNotice = document.getElementById("aboutNotice");
+let aboutNoticeOverview = document.getElementById("aboutNoticeOverview");
+let aboutNoticeClose = document.getElementById("aboutNoticeClose");
+let aboutButtonImpressum = document.getElementById("aboutButtonImpressum");
+let aboutButtonDatenschutz = document.getElementById("aboutButtonDatenschutz");
+let aboutPageImpressum = document.getElementById("aboutPageImpressum");
+let aboutPageDatenschutz = document.getElementById("aboutPageDatenschutz");
+let aboutButtonTutorial = document.getElementById("aboutButtonTutorial");
 
+buttonAbout.addEventListener("click", function() {
+  aboutNotice.style.display = "block";
+  aboutNotice.style.opacity = "1";
+});
+
+aboutNoticeClose.addEventListener("click", function() {
+  aboutNotice.style.display = "none";
+  aboutNotice.style.opacity = "0";
+  aboutPageImpressum.style.display = "none";
+  aboutPageImpressum.style.opacity = "0";
+  aboutPageDatenschutz.style.display = "none";
+  aboutPageDatenschutz.style.opacity = "0";
+  aboutNoticeOverview.style.display = "block";
+  aboutNoticeOverview.style.opacity = "1";
+});
+
+aboutButtonImpressum.addEventListener("click", function() {
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageImpressum.style.display = "block";
+  aboutPageImpressum.style.opacity = "1";
+});
+
+aboutButtonDatenschutz.addEventListener("click", function() {
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageDatenschutz.style.display = "block";
+  aboutPageDatenschutz.style.opacity = "1";
+});
+
+aboutButtonTutorial.addEventListener("click", function() {
+  aboutNotice.style.display = "none";
+  aboutNotice.style.opacity = "0";
+  walkthrough.style.display = "flex";
+  walkthrough.style.opacity = "1";
+});

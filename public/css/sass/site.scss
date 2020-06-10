@@ -53,14 +53,20 @@ h1, h2, h3 {
 
 .buttonLeft {
     position: absolute;
-    bottom: 40px;
-    left: 20px;
+    bottom: 20px;
+    left: 0;
 }
 
 .buttonRight {
     position: absolute;
-    bottom: 40px;
-    right: 20px;
+    bottom: 20px;
+    right: 0;
+}
+
+.buttonCenter {
+    position: absolute;
+    bottom: 20px;
+    right: calc(50% - 24px);
 }
 
 html, body, .viewport {
@@ -119,23 +125,23 @@ html, body, .viewport {
         
         .seekbar {  
             cursor: pointer;
-            height: 8px;
-            border: 1px solid white;
+            position: inherit;
+            align-self: flex-start;
+            height: 14px;
+            border: 1px solid $color2;
             overflow: hidden;
-            position: absolute;
-            top: 25px;
-            left: 100px;
             width: 200px;
-            border-radius: 8px;
+            border-radius: 14px;
+            margin: 24px;
 
             span {
-                background-color: white;
+                background-color: $color2;
                 position: absolute;
                 top: 0;
                 left: 0;
-                height: 8px;
+                height: 14px;
                 width: 0px;
-                border-radius: 8px;
+                border-radius: 14px;
             }
         }
     }
@@ -218,7 +224,7 @@ html, body, .viewport {
                 margin-left: -50%;
                 margin-top: -50%;
                 border-radius: 45px;
-                background-color: $color3;
+                background-color: $color1;
                 animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
             }
             
@@ -230,7 +236,7 @@ html, body, .viewport {
                 display: block;
                 width: 50%;
                 height: 50%;
-                background-color: red;
+                background-color: $color1;
                 border-radius: 15px;
                 box-shadow: 0 0 8px rgba(0,0,0,.3);
                 animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
@@ -307,26 +313,36 @@ html, body, .viewport {
             padding: 0;
         }
 
-        #uploadBar {
-            position: absolute;
-            bottom: 100px;
-            width: 78%;
-            height: 8px;
-            -webkit-appearance: none;
-            appearance: none;
-            margin: 20px;
-            border-radius: 20px;
-            background: $color1;
+        .uploadNoticePage1 {
+            align-items: flex-start;
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-            &::-webkit-progress-bar {
-                background-color: $backgroundColor;
-                border-radius: 8px;
-            }
+        .progressWrapper {
+            display: flex;
+            align-items: center;
+            align-self: flex-end;       
+            justify-content: center;
+            width: 100%;
 
-            &::-webkit-progress-value {
-                background-image:
-                    -webkit-linear-gradient(left, $color1, $color2);
-                    border-radius: 8px;
+            #uploadBar {
+                width: 100px;
+                height: 14px;
+                -webkit-appearance: none;
+                appearance: none;
+                margin: 24px;
+                border-radius: 20px;
+    
+                &::-webkit-progress-bar {
+                    background-color: $color1;
+                    border-radius: 14px;
+                }
+    
+                &::-webkit-progress-value {
+                    background-color: $color2;
+                    border-radius: 14px;
+                }
             }
         }
 
@@ -380,8 +396,6 @@ html, body, .viewport {
                     margin-left: 20px;
                 }
             }
-
-
         }
 
         .button {
@@ -393,6 +407,126 @@ html, body, .viewport {
             opacity: 0;
         }
     }
+
+    .aboutNotice {
+        display: none;
+        opacity: 0;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+        background: #fff;
+        color: $color3;
+        padding: 20px;
+        border-radius: 20px;
+        overflow: hidden;
+
+        .aboutNoticeOverview {
+            width: 100%;
+        }
+
+        .mixmatchLogo {
+            display: block;
+            width: 150px;
+            height: auto;
+            padding: 40px 0;
+            margin: 0 auto;
+        }
+
+        .aboutButton {
+            width: 100%;
+            padding: 20px 0;
+            border-bottom: 1px solid $color3;
+            position: relative;
+            cursor: pointer; 
+
+            &::after {
+                content: "";
+                width: 14px;
+                height: 14px;
+                position: absolute;
+                right: 0;
+                top: calc(50% - 7px);
+                background-image: url("../img/icons/arrow_right.svg");
+                background-repeat: no-repeat;
+            }
+        }
+
+        .button {
+            color: $color3;
+        }
+
+        .aboutButtonTutorial {
+            position: absolute;
+            bottom: 100px;
+            width: 100%;
+            padding: 15px;
+            background: $color1;
+            color: white;
+            border-radius: 40px;
+            text-align: center;
+            font-family: 'Segoe UI Bold', Helvetica, Arial, sans-serif;
+            cursor: pointer; 
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin: 20px 0 0 0;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 20px 0 40px 0;
+            padding: 0;
+        }
+
+        .aboutPage {
+            height: 75%;
+
+            p {
+                height: 100%;
+                padding: 0 20px 20px 0;
+                overflow-y: scroll;
+                scrollbar-width: thin;
+                scrollbar-color: $color1 white;
+                
+                &::-webkit-scrollbar {
+                    width: 11px;
+                }
+                
+                &::-webkit-scrollbar-track {
+                    background: white;
+                }
+                
+                &::-webkit-scrollbar-thumb {
+                    background-color: $color1;
+                    border-radius: 6px;
+                    border: 3px solid white;
+                }   
+            }
+        }
+
+        .aboutPageImpressum {
+            display: none;
+            opacity: 0;
+        }
+
+        .aboutPageDatenschutz {
+            display: none;
+            opacity: 0;
+        }
+    }
+}
+
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .screenshot-image {
@@ -464,7 +598,7 @@ html, body, .viewport {
         height: 80px;
         width: 80px;
         border-radius: 100%;
-        border: 4px solid red;
+        border: 4px solid $color1;
         background: none;
         transition: all 0.2s ease;
         outline: none;
@@ -475,7 +609,7 @@ html, body, .viewport {
             left: 4px;
             width: 64px;
             height: 64px;
-            background: red;
+            background: $color1;
             border-radius: 100%;
             content: "";
             outline: none;
@@ -646,6 +780,14 @@ html, body, .viewport {
 
 @media only screen and (min-width: 768px) {
 
+    .buttonLeft {
+        left: 20px;
+    }
+    
+    .buttonRight {
+        right: 20px;
+    }
+
     .container {
 
         .videoContainerRecordingControls {
@@ -671,6 +813,38 @@ html, body, .viewport {
             }
     
         }
+
+        .reportNotice {
+            width: 540px;
+            margin: 0 auto;
+        }
+
+        .uploadNotice {
+            width: 540px;
+            margin: 0 auto;
+
+            .progressWrapper {
+    
+                #uploadBar {
+                    width: 200px;
+                }
+            }
+        }
+
+        .aboutNotice {
+            width: 540px;
+            margin: 0 auto;
+        }
+    }
+
+    .walkthrough {
+        width: 540px;
+        margin: 0 auto;
+    }
+
+    .wrapper {
+        width: 500px;
+        margin: 0 auto;
     }
 }
 
@@ -684,14 +858,12 @@ html, body, .viewport {
             .videoButton {
                 display: block;
                 opacity: 1;
-                background: none;
-                color: beige;
+                width: 20px;
                 cursor: pointer;
-                border: none;
                 position: absolute;
                 top: calc(50% - 20px);
-                text-align: center;
                 z-index: 100;
+                fill: $color1;
 
                 &Right {
                     right: calc(50% - 320px);
@@ -713,8 +885,8 @@ html, body, .viewport {
             height: 50px;
             z-index: 100;
             position: absolute;
-            bottom: 10px;
-            left: 30px;
+            top: 10px;
+            left: calc(50% - 25px);
 
             img {
                 width: 100%;
@@ -741,7 +913,5 @@ html, body, .viewport {
                 }
             }
         }
-
     }
-
 }
