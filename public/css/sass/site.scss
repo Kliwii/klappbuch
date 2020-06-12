@@ -121,28 +121,27 @@ html, body, .viewport {
             display: none;
             opacity: 0;
         }
+    }
 
-        
-        .seekbar {  
-            cursor: pointer;
-            position: inherit;
-            align-self: flex-start;
+    .seekbar {  
+        cursor: pointer;
+        position: inherit;
+        align-self: flex-start;
+        height: 14px;
+        border: 1px solid $color2;
+        overflow: hidden;
+        width: 200px;
+        border-radius: 14px;
+        margin: 24px;
+
+        span {
+            background-color: $color2;
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 14px;
-            border: 1px solid $color2;
-            overflow: hidden;
-            width: 200px;
+            width: 0px;
             border-radius: 14px;
-            margin: 24px;
-
-            span {
-                background-color: $color2;
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 14px;
-                width: 0px;
-                border-radius: 14px;
-            }
         }
     }
     
@@ -566,6 +565,7 @@ html, body, .viewport {
         position: absolute;
         bottom: 20px;
         right: 20px;
+        opacity: 0.5;
     }
 
     .buttonFullscreen {
@@ -643,6 +643,7 @@ html, body, .viewport {
         position: absolute;
         top: 10px;
         right: 30px;
+        cursor: pointer;
     }
     
     .reportVideo {
@@ -652,6 +653,7 @@ html, body, .viewport {
         position: absolute;
         top: 10px;
         left: 30px;
+        cursor: pointer;
     }
 
     .uploadVideoNotice {
@@ -661,6 +663,7 @@ html, body, .viewport {
         position: absolute;
         top: 10px;
         left: 30px;
+        cursor: pointer;
     }
 
     .showLiveVideo {
@@ -872,25 +875,6 @@ html, body, .viewport {
                 &Left {
                     left: calc(50% - 320px);
                 }
-            }
-        }
-    }
-
-    .editControls {
-
-        .showLiveVideo {
-            display: block;
-            opacity: 1;
-            width: 50px;
-            height: 50px;
-            z-index: 100;
-            position: absolute;
-            top: 10px;
-            left: calc(50% - 25px);
-
-            img {
-                width: 100%;
-                height: 100%;
             }
         }
     }

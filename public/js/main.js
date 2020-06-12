@@ -1,40 +1,31 @@
-
 let videoContainer = document.querySelector('.videoContainerCam'); 
 let video = document.querySelector('#videoCam');
-let toggleFullScreenButton = document.querySelector('.buttonFullscreen');
 let switchCameraButton = document.querySelector('.buttonChange');
-let controls = document.querySelector('.controls');
 let videos = document.querySelectorAll('.videoElement');
-let muteVideoButton = document.querySelectorAll('.muteVideo');
-let videoButtonRight = document.querySelectorAll('.videoButtonRight');
-let videoButtonLeft = document.querySelectorAll('.videoButtonLeft');
 let amountOfCameras = 0;
 let currentFacingMode = 'user';
 let canvas = document.getElementById('videoCanvas');
 let canvasContext = canvas.getContext("2d");
-let videoContainerOutput = document.querySelector('.videoContainerOutput'); 
 let videoOutput = document.getElementById('videoOutput');
 let videoContainerRecording = document.querySelector('.videoContainerRecording'); 
 let recording = document.getElementById("recording");
-let showLiveVideoButton = document.getElementById("showLiveVideo");
 let startButton = document.getElementById("startButton");
-let downloadButton = document.getElementById("downloadButton");
-let uploadVideoNotice = document.getElementById("uploadVideoNotice");
 let uploadVideo = document.getElementById("uploadVideo");
-let uploadNotice = document.getElementById("uploadNotice");
-let uploadNoticeClose = document.getElementById("uploadNoticeClose");
-let uploadNoticeCancel = document.getElementById("uploadNoticeCancel");
 let uploadBar = document.getElementById("uploadBar");
 let recordStatus = document.getElementById("recordStatus");
+//let downloadButton = document.getElementById("downloadButton");
 //let logElement = document.getElementById("log");
 let audioStream;
 let webcamPosition;
 window.webcamPosition = 1;
 
+//
+//Checks + Init
+//
 document.addEventListener('DOMContentLoaded', function(event) {
-  // do some WebRTC checks before creating the interface
+
+  //WebRTC checks before creating the interface
   DetectRTC.load(function() {
-    // do some checks
     if (DetectRTC.isWebRTCSupported == false) {
       alert(
         'Please use Chrome, Firefox, iOS 11, Android 5 or higher, Safari 11 or higher',
@@ -49,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
       }
     }
 
+    //Log RTC debug info
     console.log(
       'RTC Debug info: ' +
         '\n OS:                   ' +
@@ -75,10 +67,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
   });
 });
 
+//
+//Camera UI Init
+//
 function initCameraUI() {
-  //
   //Fullscreen
-  //
+  let toggleFullScreenButton = document.querySelector('.buttonFullscreen');
+
   function fullScreenChange() {
     if (screenfull.isFullscreen) {
       toggleFullScreenButton.setAttribute('aria-pressed', true);
@@ -90,7 +85,7 @@ function initCameraUI() {
   if (screenfull.isEnabled) {
     screenfull.on('change', fullScreenChange);
 
-    // set init values
+    //Set init values
     fullScreenChange();
 
     toggleFullScreenButton.addEventListener('click', function() {
@@ -105,11 +100,9 @@ function initCameraUI() {
     console.log("iOS doesn't support fullscreen (yet)");
   }
 
-  //
   //Switch Cameras 
-  //
   if (amountOfCameras > 1) {
-    switchCameraButton.style.display = 'block';
+    switchCameraButton.style.opacity = '1';
 
     switchCameraButton.addEventListener('click', function() {
       if (currentFacingMode === 'environment') currentFacingMode = 'user';
@@ -120,53 +113,49 @@ function initCameraUI() {
   }
 }
 
+//
+//Init Camera Stream
+//
 function initCameraStream() {
   //Stop any active streams in the window
   if (window.stream) {
     window.stream.getTracks().forEach(track => track.stop())
   }
 
-  //Stream Resolution
+  //Stream Constraints
   var sizeW = 1080;
   var sizeH = 640;
 
   var constraints = {
     audio: true,
     video: {
-      width: { min: sizeW, max: sizeW },
-      height: { min: sizeH, max: sizeH },
-      aspectRatio : { ideal: 1.6875 },
+      width: { min: 540, ideal:sizeW, max:  1620},
+      height: { min: 320, ideal:sizeH, max: 960 },
+      aspectRatio : { exact: 1.6875 },
       facingMode: currentFacingMode,
     },
   };
 
+  //getUserMedia with constraints
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(handleSuccess)
     .catch(handleError);
 
+  //Set stream when successful
   function handleSuccess(stream) {
     window.stream = stream; // make stream available to browser console
     video.srcObject = stream;
 
-    //Init Canvas for resizing and effects
+    //Init Canvas for resizing and optional effects
     video.addEventListener("playing", initCanvas);
-
-    if (constraints.video.facingMode) {
-      if (constraints.video.facingMode === 'environment') {
-        switchCameraButton.setAttribute('aria-pressed', true);
-      } else {
-        switchCameraButton.setAttribute('aria-pressed', false);
-      }
-    }
 
     //Logging Video Track Data to console
     const track = window.stream.getVideoTracks()[0];
     const settings = track.getSettings();
     str = JSON.stringify(settings, null, 4);
     console.log('settings ' + str);
-
-    return navigator.mediaDevices.enumerateDevices();
+    //return navigator.mediaDevices.enumerateDevices();
   }
 
   //Show Permission Message if permission is denied
@@ -196,16 +185,30 @@ function initCameraStream() {
 //
 function initCanvas() {
 
-  let hRatio = (canvas.width / video.videoWidth) * video.videoHeight;
-  //Flip the Canvas
+  //Use Canvas to set video to the correct aspect ratio of 1.6875
+  let canvasRatio = canvas.width / canvas.height //1.6875
+  let videoRatio = video.videoWidth / video.videoHeight
+  let hRatio
+  let wRatio
+
+  if (videoRatio <= canvasRatio) {
+    hRatio = (canvas.width / video.videoWidth) * video.videoHeight;
+    wRatio = canvas.width;
+    //console.log("Video Ratio under or exactly 1.6875");
+  } else {
+    hRatio = canvas.height;
+    wRatio = (canvas.height / video.videoHeight) * video.videoWidth
+    //console.log("Video Ratio over 1.6875");
+  }
+
+  //Flip the Canvas so it isn't mirrored
   //canvasContext.translate(canvas.width, 0); 
   //canvasContext.scale(-1, 1);
+
   drawToCanvas();
-
+  //Draw Video to Canvas
   function drawToCanvas() {
-    //draw video to canvas
-    canvasContext.drawImage( video, 0, 0, canvas.width, hRatio );
-
+    canvasContext.drawImage( video, 0, 0, wRatio, hRatio);
     requestAnimationFrame( drawToCanvas );
   }
   
@@ -215,19 +218,26 @@ function initCanvas() {
   initAudioStream(canvasStream);
 }
 
+//
+// Init Audio Stream
+//
 function initAudioStream(canvasStream) {
 
-  var audioCtx = new AudioContext();
-  // create a stream from our AudioContext
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  let audioCtx = new AudioContext();
+
+  //Create stream from our AudioContext
   var dest = audioCtx.createMediaStreamDestination();
   aStream = dest.stream;
-  // connect our video element's output to the stream
+
+  //Connect video element's output to the stream
   var sourceNode = audioCtx.createMediaElementSource(video);
   sourceNode.connect(dest)
 
-  // output to our headphones
-  sourceNode.connect(audioCtx.destination)
+  //Direct output to headphones (live audio from stream)
+  //sourceNode.connect(audioCtx.destination)
 
+  //Add the audio Track to the canvasStream
   canvasStream.addTrack(aStream.getAudioTracks()[0]);
   var mixedStream = 'MediaStream' in window ? new MediaStream([canvasStream.getVideoTracks()[0], aStream.getAudioTracks()[0]]) : canvasStream;
 
@@ -238,19 +248,21 @@ function initAudioStream(canvasStream) {
 //
 //Recording
 //
-
 //Recording Time of the Video
 let recordingTimeMS = 4000;
 
 //Log information for the user
+/*
 function log(msg) {
   logElement.innerHTML += msg + "\n";
 }
+*/
 
 function wait(delayInMS) {
   return new Promise(resolve => setTimeout(resolve, delayInMS));
 }
 
+//Start Countdown when Record Button is clicked
 startButton.addEventListener("click", startRecordingProcess);
 function startRecordingProcess() {
   startButton.className += " active";
@@ -271,6 +283,7 @@ function startTimer() {
     if(timeleft <= 0){
       clearInterval(recordTimer);
       timerDisplay.innerHTML = "";
+      //Recording starts when Countdown has elapsed
       startRecording(mixedStream, recordingTimeMS);
     } else {
       timerDisplay.innerHTML = timeleft;
@@ -279,11 +292,26 @@ function startTimer() {
   }, 1000);
 };
 
+//Recording
 function startRecording(stream, lengthInMS) {
   recordStatus.style.display = "block";
   recordStatus.style.opacity = "1";
   //Create new MediaRecorder, which handles recording the input stream
-  let options = { mimeType: 'video/webm' };
+  let options = { mimeType: 'video/webm;codecs=vp9,opus' };
+
+  if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+    console.error("mimeType: video/webm;codecs=vp9,opus is not supported");
+    options = {mimeType: 'video/webm;codecs=vp8,opus'};
+    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+      console.error("mimeType: video/webm;codecs=vp8,opus is not supported");
+      options = {mimeType: 'video/webm'};
+      if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+        console.error("mimeType: video/webm is not supported");
+        options = {mimeType: ''};
+      }
+    }
+  }
+
   let recorder = new MediaRecorder(stream, options);
   //Create empty array for Blobs of media data from the ondataavailable event handler
   let data = [];
@@ -313,6 +341,7 @@ function startRecording(stream, lengthInMS) {
   .then(() => handleRecordingData(data));
 }
 
+//Handle Recording Data
 function handleRecordingData(recordedChunks) {
   recordStatus.style.display = "none";
   recordStatus.style.opacity = "0";
@@ -339,6 +368,11 @@ function handleRecordingData(recordedChunks) {
 //
 //Upload Notice
 //
+let uploadVideoNotice = document.getElementById("uploadVideoNotice");
+let uploadNotice = document.getElementById("uploadNotice");
+let uploadNoticeClose = document.getElementById("uploadNoticeClose");
+let uploadNoticeCancel = document.getElementById("uploadNoticeCancel");
+
 uploadVideoNotice.addEventListener("click", function() {
   uploadNotice.style.display = "block";
   uploadNotice.style.opacity = "1";
@@ -449,7 +483,11 @@ function uploadToStorage(recordedBlob) {
   };
 }
 
+//
 //Change videoContainerOutput and videoContainerRecording Position 
+//
+let videoContainerOutput = document.querySelector('.videoContainerOutput'); 
+
 for (let i = 0; i < videos.length; i++) {
   videos[i].addEventListener("click", function() {
     console.log('Webcam Position: ' + this.dataset.index);
@@ -555,6 +593,9 @@ loadVideos();
 //
 // Display loaded Videos
 //
+let videoButtonRight = document.querySelectorAll('.videoButtonRight');
+let videoButtonLeft = document.querySelectorAll('.videoButtonLeft');
+
 function displayVideos1(videoRef) {
 
   var count = 0;
@@ -697,9 +738,10 @@ function displayVideos3(videoRef) {
 //
 //Sound - Mute Option
 //
+let muteVideoButton = document.querySelectorAll('.muteVideo');
+
 for (let i = 0; i < muteVideoButton.length; i++) {
   muteVideoButton[i].addEventListener("click", function() {
-
     if (videos[this.dataset.index - 1].muted == true) {
       videos[this.dataset.index - 1].muted = false;
       this.firstElementChild.src = "img/icons/unmute.svg";
@@ -707,7 +749,6 @@ for (let i = 0; i < muteVideoButton.length; i++) {
       videos[this.dataset.index - 1].muted = true;
       this.firstElementChild.src = "img/icons/mute.svg";
     }
-  
   });
 }
 
@@ -717,7 +758,6 @@ for (let i = 0; i < muteVideoButton.length; i++) {
 let seekbar = document.querySelectorAll('.seekbar');
 
 for (let i = 0; i < videos.length; i++) {
-
   videos[i].ontimeupdate = function(){
     let percentage = ( videos[i].currentTime / videos[i].duration ) * 100;
     seekbar[i].children[0].style.width = percentage+"%";
@@ -731,9 +771,7 @@ for (let i = 0; i < videos.length; i++) {
     let vidTime = videos[i].duration * percentage;
     videos[i].currentTime = vidTime;
   });
-
 }
-
 
 //
 //Edit
@@ -765,18 +803,21 @@ buttonEdit.addEventListener('click', function() {
 //
 //Record new Video (Display Live Feed)
 //
-
+//Swipe Left/Right on Touch to see Live Feed again
 detectswipe('videoContainerRecording', showLivefeed);
-
 function showLivefeed(el,d){
-  if (d == "u") {
-    //console.log("Swipe Up");
+  if (d == "l" || d == "r") {
     videoContainerRecording.style.zIndex = "5";
+    videos[3].muted = true;
+    muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
   }
 }
 
-showLiveVideoButton.addEventListener("click", function(){
+//Doubleclick on Desktop to see Live Feed again
+videoContainerRecording.addEventListener("dblclick", function(){
   videoContainerRecording.style.zIndex = "5";
+  videos[3].muted = true;
+  muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
 });
 
 //
