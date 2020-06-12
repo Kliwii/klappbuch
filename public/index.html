@@ -76,7 +76,7 @@
 
       <div class="videoContainerCam">
         <video autoplay="true" class="videoElementCam" id="videoCam" data-index="0" autoplay loop playsinline muted>
-          <source src="img/videos/MPS33.mp4" type="video/mp4" />
+          <source src="" type="video/mp4" />
         </video>
       </div>
 
@@ -85,12 +85,16 @@
       </div>
 
       <div class="videoContainerRecording" id="videoContainerRecording">
-        <video id="recording" autoplay loop playsinline muted></video>
+        <video autoplay="true" class="videoElement" id="recording" data-index="4" autoplay loop playsinline muted>
+          <source src="" type="video/mp4" />
+        </video>
         <div class="editControls">
           <div class="wrapper">
-            <div class="muteVideo"><img src="img/icons/mute.svg" alt="Mute"></div>
+            <div class="muteVideo" data-index="4"><img src="img/icons/mute.svg" alt="Mute"></div>
             <div class="uploadVideoNotice" id="uploadVideoNotice"><img src="img/icons/share_idle.svg" alt="Upload"></div>
-            <div class="showLiveVideo" id="showLiveVideo"><img src="img/icons/x.svg" alt="Show Live Video"></div>
+            <div class="seekbar">
+              <span></span>
+            </div>
           </div>
         </div>
       </div>
