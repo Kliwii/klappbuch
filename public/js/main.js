@@ -1,4 +1,4 @@
-let videoContainer = document.querySelector('.videoContainerCam'); 
+
 let video = document.querySelector('#videoCam');
 let switchCameraButton = document.querySelector('.buttonChange');
 let videos = document.querySelectorAll('.videoElement');
@@ -13,11 +13,14 @@ let startButton = document.getElementById("startButton");
 let uploadVideo = document.getElementById("uploadVideo");
 let uploadBar = document.getElementById("uploadBar");
 let recordStatus = document.getElementById("recordStatus");
+let buttonEdit = document.getElementById("buttonEdit");
 //let downloadButton = document.getElementById("downloadButton");
 //let logElement = document.getElementById("log");
 let audioStream;
 let webcamPosition;
 window.webcamPosition = 1;
+let recordingPlaying;
+window.recordingPlaying = false;
 
 //
 //Checks + Init
@@ -77,24 +80,20 @@ function initCameraUI() {
   function fullScreenChange() {
     if (screenfull.isFullscreen) {
       toggleFullScreenButton.setAttribute('aria-pressed', true);
+      toggleFullScreenButton.firstElementChild.src = "img/icons/minimize.svg";
+      //console.log("Fullscreen");
     } else {
       toggleFullScreenButton.setAttribute('aria-pressed', false);
+      toggleFullScreenButton.firstElementChild.src = "img/icons/fullscreen.svg";
+      //console.log("Not Fullscreen");
     }
   }
 
   if (screenfull.isEnabled) {
     screenfull.on('change', fullScreenChange);
 
-    //Set init values
-    fullScreenChange();
-
     toggleFullScreenButton.addEventListener('click', function() {
-      screenfull.toggle(document.getElementById('container')).then(function() {
-        console.log(
-          'Fullscreen mode: ' +
-            (screenfull.isFullscreen ? 'enabled' : 'disabled'),
-        );
-      });
+      screenfull.toggle();
     });
   } else {
     console.log("iOS doesn't support fullscreen (yet)");
@@ -267,6 +266,9 @@ startButton.addEventListener("click", startRecordingProcess);
 function startRecordingProcess() {
   startButton.className += " active";
   videoContainerRecording.style.zIndex = "5";
+  window.recordingPlaying = true;
+  editDeactivate();
+  buttonEdit.style.opacity = "0.4";
   //Remove Event Listener until video recorded
   startButton.removeEventListener("click", startRecordingProcess);
 
@@ -345,24 +347,26 @@ function startRecording(stream, lengthInMS) {
 function handleRecordingData(recordedChunks) {
   recordStatus.style.display = "none";
   recordStatus.style.opacity = "0";
-  
+
   let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
   //URL that references the Blob is created and assigned to the recorded video and the download button
-  recording.src = URL.createObjectURL(recordedBlob);  
+  recording.src = URL.createObjectURL(recordedBlob);
   //downloadButton.href = recording.src;
   //downloadButton.download = "mixmatch.mp4";
   videoContainerRecording.style.zIndex = "15";
+  buttonEdit.style.opacity = "1";
   startButton.classList.remove("active");
+
+  //Size and Type of the recorded Media is logged
+  console.log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
 
   //Adding Event Listener again, after Recording is complete
   startButton.addEventListener("click", startRecordingProcess);
 
   uploadVideo.addEventListener("click", function() {
+    console.log("Upload Click: ", recordedBlob);
     uploadToStorage(recordedBlob);
   });
-
-  //Size and Type of the recorded Media is logged
-  console.log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
 }
 
 //
@@ -388,11 +392,11 @@ uploadNoticeCancel.addEventListener("click", function() {
   uploadNotice.style.opacity = "0";
 });
 
-
 //
 // Firebase Storage 
 //
 function uploadToStorage(recordedBlob) {
+  console.log("Upload: ", recordedBlob);
 
   // Points to the root reference
   var storageRef = firebase.storage().ref();
@@ -404,7 +408,7 @@ function uploadToStorage(recordedBlob) {
   var metadata = {
     contentType: 'video/mp4'
   };
-
+  
   //Create GUID for file name
   var lut = []; for (var i=0; i<256; i++) { lut[i] = (i<16?'0':'')+(i).toString(16); }
 
@@ -430,9 +434,6 @@ function uploadToStorage(recordedBlob) {
       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       uploadBar.value = progress;
       console.log('Upload is ' + progress + '% done');
-      if (progress == 100) {
-        uploadSuccessful();
-      }
       switch (snapshot.state) {
         case firebase.storage.TaskState.PAUSED: // or 'paused'
           console.log('Upload is paused');
@@ -442,7 +443,6 @@ function uploadToStorage(recordedBlob) {
           break;
       }
     }, function(error) {
-
     // A full list of error codes is available at
     // https://firebase.google.com/docs/storage/web/handle-errors
     switch (error.code) {
@@ -463,8 +463,9 @@ function uploadToStorage(recordedBlob) {
     }
   }, function() {
     // Upload completed successfully, now we can get the download URL
+    uploadSuccessful();
     uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-      //console.log('File available at', downloadURL);
+    //console.log('File available at', downloadURL);
     });
   });
 
@@ -488,24 +489,27 @@ function uploadToStorage(recordedBlob) {
 //
 let videoContainerOutput = document.querySelector('.videoContainerOutput'); 
 
-for (let i = 0; i < videos.length; i++) {
+for (let i = 0; i < 3; i++) {
   videos[i].addEventListener("click", function() {
-    console.log('Webcam Position: ' + this.dataset.index);
-    window.webcamPosition = this.dataset.index;
 
-    if (this.dataset.index == 1) {
-      videoContainerOutput.style.top = "0%";
-      videoContainerRecording.style.top = "0%";
-    }
-
-    if (this.dataset.index == 2) {
-      videoContainerOutput.style.top = "30%";
-      videoContainerRecording.style.top = "30%";
-    }
-
-    if (this.dataset.index == 3) {
-      videoContainerOutput.style.top = "60%";
-      videoContainerRecording.style.top = "60%";
+    if (window.recordingPlaying == false) {
+      console.log('Webcam Position: ' + this.dataset.index);
+      window.webcamPosition = this.dataset.index;
+  
+      if (this.dataset.index == 1) {
+        videoContainerOutput.style.top = "0%";
+        videoContainerRecording.style.top = "0%";
+      }
+  
+      if (this.dataset.index == 2) {
+        videoContainerOutput.style.top = "30%";
+        videoContainerRecording.style.top = "30%";
+      }
+  
+      if (this.dataset.index == 3) {
+        videoContainerOutput.style.top = "60%";
+        videoContainerRecording.style.top = "60%";
+      }
     }
   });
 }
@@ -556,6 +560,22 @@ function detectswipe(el,func) {
 }
 
 //
+//Set initial video size
+//
+window.addEventListener('load', setVideoSize);
+window.addEventListener('resize', setVideoSize);
+
+let videoContainer = document.querySelectorAll('.videoContainer');
+function setVideoSize() {
+  let videoWidth = videos[0].offsetWidth;
+  for (let i = 0; i < videoContainer.length; i++) {
+    videoContainer[i].style.width = videoWidth + "px";
+    videoContainerOutput.style.width = videoWidth + "px";
+    videoContainerRecording.style.width = videoWidth + "px";
+  };
+};
+
+//
 //Load Videos
 //
 async function loadVideos(){
@@ -569,13 +589,13 @@ async function loadVideos(){
   var listRef3 = storageRef.child('videos/slice3');
 
   //List Elements
-  var firstPage1 = await listRef1.list({maxResults: 10});
+  var firstPage1 = await listRef1.list({maxResults: 20});
   displayVideos1(firstPage1.items);  
 
-  var firstPage2 = await listRef2.list({maxResults: 10});
+  var firstPage2 = await listRef2.list({maxResults: 20});
   displayVideos2(firstPage2.items); 
 
-  var firstPage3 = await listRef3.list({maxResults: 10});
+  var firstPage3 = await listRef3.list({maxResults: 20});
   displayVideos3(firstPage3.items); 
 
   // Fetch the second page if there are more elements.
@@ -591,6 +611,28 @@ async function loadVideos(){
 loadVideos();
 
 //
+//Put loaded Videos in random Order
+//
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+//
 // Display loaded Videos
 //
 let videoButtonRight = document.querySelectorAll('.videoButtonRight');
@@ -599,37 +641,90 @@ let videoButtonLeft = document.querySelectorAll('.videoButtonLeft');
 function displayVideos1(videoRef) {
 
   var count = 0;
+  var randomizedVideos = shuffle(videoRef);
   var videoElement1 = document.querySelector("#videoElement1");
+  var animationContainerR1 = document.getElementById('animationContainerR1');
+  var animationContainerL1 = document.getElementById('animationContainerL1');
 
   detectswipe('videoElement1', swipeVideo1);
 
+  //Set initial Video
+  randomizedVideos[0].getDownloadURL().then(function(url) {
+    videoElement1.src = url; 
+  })
+
+  //Change Videos on Swipe/Arrow Click
   function swipeVideo1(el,d){
     if (d == "l" && editActive == false) {
       //console.log("Swipe Left");
-      videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement1.src = url; 
+      randomizedVideos[++count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement1.src = url;
+        }, 200); 
+
+        animationEndCallbackR = (e) => {
+          animationContainerR1.removeEventListener('animationend', animationEndCallbackR);
+          animationContainerR1.classList.remove("changeAnimationRTL");
+        }
+        animationContainerR1.classList.add("changeAnimationRTL");
+        animationContainerR1.addEventListener('animationend', animationEndCallbackR);
+        
       })
     }
     if (d == "r" && editActive == false) {
       //console.log("Swipe Right");
-      videoRef[--count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement1.src = url; 
+      randomizedVideos[--count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement1.src = url;
+        }, 200); 
+
+        animationEndCallbackL = (e) => {
+          animationContainerL1.removeEventListener('animationend', animationEndCallbackL);
+          animationContainerL1.classList.remove("changeAnimationLTR");
+        }
+        animationContainerL1.classList.add("changeAnimationLTR");
+        animationContainerL1.addEventListener('animationend', animationEndCallbackL);
+
       })
     }
   }
 
   videoButtonRight[0].addEventListener("click", function(){
     if (editActive == false) {
-      videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement1.src = url; 
+      randomizedVideos[++count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement1.src = url;
+        }, 200); 
+
+        animationEndCallbackR = (e) => {
+          animationContainerR1.removeEventListener('animationend', animationEndCallbackR);
+          animationContainerR1.classList.remove("changeAnimationRTL");
+        }
+        animationContainerR1.classList.add("changeAnimationRTL");
+        animationContainerR1.addEventListener('animationend', animationEndCallbackR);
+
       })
     }
   })
 
   videoButtonLeft[0].addEventListener("click", function(){
     if (editActive == false) {
-      videoRef[--count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement1.src = url; 
+      randomizedVideos[--count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement1.src = url;
+        }, 200); 
+
+        animationEndCallbackL = (e) => {
+          animationContainerL1.removeEventListener('animationend', animationEndCallbackL);
+          animationContainerL1.classList.remove("changeAnimationLTR");
+        }
+        animationContainerL1.classList.add("changeAnimationLTR");
+        animationContainerL1.addEventListener('animationend', animationEndCallbackL);
+
       })
     }
   })
@@ -639,37 +734,90 @@ function displayVideos1(videoRef) {
 function displayVideos2(videoRef) {
 
   var count = 0;
+  var randomizedVideos = shuffle(videoRef);
   var videoElement2 = document.querySelector("#videoElement2");
+  var animationContainerR2 = document.getElementById('animationContainerR2');
+  var animationContainerL2 = document.getElementById('animationContainerL2');
 
   detectswipe('videoElement2', swipeVideo2);
 
+  //Set initial Video
+  randomizedVideos[0].getDownloadURL().then(function(url) {
+    videoElement2.src = url; 
+  })
+
+  //Change Videos on Swipe/Arrow Click
   function swipeVideo2(el,d){
     if (d == "l" && editActive == false) {
       //console.log("Swipe Left");
-      videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement2.src = url; 
+      randomizedVideos[++count % randomizedVideos.length].getDownloadURL().then(function(url) {
+
+        setTimeout(function(){
+          videoElement2.src = url;
+        }, 200); 
+
+        animationEndCallbackR = (e) => {
+          animationContainerR2.removeEventListener('animationend', animationEndCallbackR);
+          animationContainerR2.classList.remove("changeAnimationRTL");
+        }
+        animationContainerR2.classList.add("changeAnimationRTL");
+        animationContainerR2.addEventListener('animationend', animationEndCallbackR);
+
       })
     }
     if (d == "r" && editActive == false) {
       //console.log("Swipe Right");
-      videoRef[--count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement2.src = url; 
+      randomizedVideos[--count % randomizedVideos.length].getDownloadURL().then(function(url) {
+
+        setTimeout(function(){
+          videoElement2.src = url;
+        }, 200); 
+
+        animationEndCallbackL = (e) => {
+          animationContainerL2.removeEventListener('animationend', animationEndCallbackL);
+          animationContainerL2.classList.remove("changeAnimationLTR");
+        }
+        animationContainerL2.classList.add("changeAnimationLTR");
+        animationContainerL2.addEventListener('animationend', animationEndCallbackL);
+
       })
     }
   }
 
   videoButtonRight[1].addEventListener("click", function(){
     if (editActive == false) {
-      videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement2.src = url; 
+      randomizedVideos[++count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement2.src = url;
+        }, 200); 
+
+        animationEndCallbackR = (e) => {
+          animationContainerR2.removeEventListener('animationend', animationEndCallbackR);
+          animationContainerR2.classList.remove("changeAnimationRTL");
+        }
+        animationContainerR2.classList.add("changeAnimationRTL");
+        animationContainerR2.addEventListener('animationend', animationEndCallbackR);
+
       })
     }
   })
 
   videoButtonLeft[1].addEventListener("click", function(){
     if (editActive == false) {
-      videoRef[--count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement2.src = url; 
+      randomizedVideos[--count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement2.src = url;
+        }, 200); 
+
+        animationEndCallbackL = (e) => {
+          animationContainerL2.removeEventListener('animationend', animationEndCallbackL);
+          animationContainerL2.classList.remove("changeAnimationLTR");
+        }
+        animationContainerL2.classList.add("changeAnimationLTR");
+        animationContainerL2.addEventListener('animationend', animationEndCallbackL);
+
       })
     }
   })
@@ -679,61 +827,95 @@ function displayVideos2(videoRef) {
 function displayVideos3(videoRef) {
 
   var count = 0;
+  var randomizedVideos = shuffle(videoRef);
   var videoElement3 = document.querySelector("#videoElement3");
+  var animationContainerR3 = document.getElementById('animationContainerR3');
+  var animationContainerL3 = document.getElementById('animationContainerL3');
 
   detectswipe('videoElement3', swipeVideo3);
 
+  //Set initial Video
+  randomizedVideos[0].getDownloadURL().then(function(url) {
+    videoElement3.src = url; 
+  })
+
+  //Change Videos on Swipe/Arrow Click
   function swipeVideo3(el,d){
     if (d == "l" && editActive == false) {
       //console.log("Swipe Left");
-      videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement3.src = url; 
+      randomizedVideos[++count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement3.src = url;
+        }, 200); 
+
+        animationEndCallbackR = (e) => {
+          animationContainerR3.removeEventListener('animationend', animationEndCallbackR);
+          animationContainerR3.classList.remove("changeAnimationRTL");
+        }
+        animationContainerR3.classList.add("changeAnimationRTL");
+        animationContainerR3.addEventListener('animationend', animationEndCallbackR);
+
       })
     }
     if (d == "r" && editActive == false) {
       //console.log("Swipe Right");
-      videoRef[--count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement3.src = url; 
+      randomizedVideos[--count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement3.src = url;
+        }, 200); 
+
+        animationEndCallbackL = (e) => {
+          animationContainerL3.removeEventListener('animationend', animationEndCallbackL);
+          animationContainerL3.classList.remove("changeAnimationLTR");
+        }
+        animationContainerL3.classList.add("changeAnimationLTR");
+        animationContainerL3.addEventListener('animationend', animationEndCallbackL);
+
       })
     }
   }
 
   videoButtonRight[2].addEventListener("click", function(){
     if (editActive == false) {
-      videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement3.src = url; 
+      randomizedVideos[++count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement3.src = url;
+        }, 200); 
+
+        animationEndCallbackR = (e) => {
+          animationContainerR3.removeEventListener('animationend', animationEndCallbackR);
+          animationContainerR3.classList.remove("changeAnimationRTL");
+        }
+        animationContainerR3.classList.add("changeAnimationRTL");
+        animationContainerR3.addEventListener('animationend', animationEndCallbackR);
+
       })
     }
   })
 
   videoButtonLeft[2].addEventListener("click", function(){
     if (editActive == false) {
-      videoRef[--count % videoRef.length].getDownloadURL().then(function(url) {
-        videoElement3.src = url; 
+      randomizedVideos[--count % randomizedVideos.length].getDownloadURL().then(function(url) {
+        
+        setTimeout(function(){
+          videoElement3.src = url;
+        }, 200); 
+
+        animationEndCallbackL = (e) => {
+          animationContainerL3.removeEventListener('animationend', animationEndCallbackL);
+          animationContainerL3.classList.remove("changeAnimationLTR");
+        }
+        animationContainerL3.classList.add("changeAnimationLTR");
+        animationContainerL3.addEventListener('animationend', animationEndCallbackL);
+
       })
     }
   })
 
 }
-
-/*
-function displayVideos3(videoRef) {
-
-  var count = 0;
-  var videoElement3 = document.querySelector("#videoElement3");
-
-  videoElement3.addEventListener("click", function(){
-
-    videoRef[++count % videoRef.length].getDownloadURL().then(function(url) {
-      
-      videoElement3.addEventListener("click", function(){
-        this.src = url; 
-      })
-  
-    })
-  })
-}
-*/
 
 //
 //Sound - Mute Option
@@ -776,29 +958,38 @@ for (let i = 0; i < videos.length; i++) {
 //
 //Edit
 //
-let buttonEdit = document.getElementById("buttonEdit");
 let editControls = document.querySelectorAll('.editControls');
 let editActive = false;
 
-buttonEdit.addEventListener('click', function() {
+buttonEdit.addEventListener('click', editToggle);
 
-  if (editActive == false) {
-    for (let i = 0; i < editControls.length; i++) {
-      editControls[i].style.opacity = "1";
-      editControls[i].style.display = "block";
-      buttonEdit.firstElementChild.src = "img/icons/edit_active.svg";
-    }
-    editActive = true;
-  } else {
-    for (let i = 0; i < editControls.length; i++) {
-      editControls[i].style.opacity = "0";
-      editControls[i].style.display = "none";
-      buttonEdit.firstElementChild.src = "img/icons/edit_idle.svg";
-    }
-    editActive = false;
+function editActivate() {
+  for (let i = 0; i < editControls.length; i++) {
+    editControls[i].style.opacity = "1";
+    editControls[i].style.display = "block";
+    buttonEdit.style.background = "#3c636e";
   }
+  editActive = true;
+}
 
-});
+function editDeactivate() {
+  for (let i = 0; i < editControls.length; i++) {
+    editControls[i].style.opacity = "0";
+    editControls[i].style.display = "none";
+    buttonEdit.style.background = "none";
+  }
+  editActive = false;
+}
+
+function editToggle() {
+  if (window.recordingPlaying == true) {
+    if (editActive == false) {
+      editActivate();
+    } else {
+      editDeactivate();
+    }
+  }
+}
 
 //
 //Record new Video (Display Live Feed)
@@ -808,6 +999,9 @@ detectswipe('videoContainerRecording', showLivefeed);
 function showLivefeed(el,d){
   if (d == "l" || d == "r") {
     videoContainerRecording.style.zIndex = "5";
+    window.recordingPlaying = false;
+    editDeactivate();
+    buttonEdit.style.opacity = "0.4";
     videos[3].muted = true;
     muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
   }
@@ -816,6 +1010,9 @@ function showLivefeed(el,d){
 //Doubleclick on Desktop to see Live Feed again
 videoContainerRecording.addEventListener("dblclick", function(){
   videoContainerRecording.style.zIndex = "5";
+  window.recordingPlaying = false;
+  editDeactivate();
+  buttonEdit.style.opacity = "0.4";
   videos[3].muted = true;
   muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
 });

@@ -20,7 +20,7 @@ body, html {
   margin: 0;
   padding: 0;
   background: #0e0e0e;
-  font-size: 16px;
+  font-size: 14px;
   font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
@@ -68,66 +68,122 @@ html, body, .viewport {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: relative;
   background: #0e0e0e;
 }
+.container .videoButton {
+  display: none;
+  opacity: 0;
+}
 .container .videoContainer {
-  width: 100%;
   height: 30%;
   overflow: hidden;
   position: absolute;
   z-index: 5;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.container .videoContainer:nth-child(2) {
+.container .videoContainer.videoContainer1 {
   top: 0;
 }
-.container .videoContainer:nth-child(3) {
+.container .videoContainer.videoContainer2 {
   top: 30%;
 }
-.container .videoContainer:nth-child(4) {
+.container .videoContainer.videoContainer3 {
   top: 60%;
 }
 .container .videoContainer .videoElement {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
   height: 100%;
   overflow: hidden;
 }
-.container .videoContainer .videoButton {
-  display: none;
-  opacity: 0;
+.container .videoContainer .animationContainerR {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  right: 100%;
+  z-index: 120;
+  background: #44a8a0;
+}
+.container .videoContainer .animationContainerL {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 100%;
+  z-index: 120;
+  background: #44a8a0;
+}
+.container .videoContainer .animationRed {
+  background: #e27c5d;
+}
+.container .videoContainer .animationGreen {
+  background: #44a8a0;
+}
+.container .videoContainer .animationBlue {
+  background: #3c636e;
+}
+.container .videoContainer .changeAnimationRTL {
+  animation: revealRTL 1s 0s ease;
+}
+.container .videoContainer .changeAnimationLTR {
+  animation: revealLTR 1s 0s ease;
+}
+@keyframes revealRTL {
+  0% {
+    width: 0;
+    right: 0;
+  }
+  20% {
+    width: 100%;
+    right: 0;
+  }
+  80% {
+    width: 100%;
+    right: 0;
+  }
+  100% {
+    width: 0;
+    right: 100%;
+  }
+}
+@keyframes revealLTR {
+  0% {
+    width: 0;
+    left: 0;
+  }
+  20% {
+    width: 100%;
+    left: 0;
+  }
+  80% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0;
+    left: 100%;
+  }
 }
 .container .seekbar {
   cursor: pointer;
-  position: inherit;
-  align-self: flex-start;
-  height: 14px;
-  border: 1px solid #44a8a0;
+  width: 50%;
+  position: absolute;
+  top: 20px;
+  left: calc(50% - 25%);
+  height: 10px;
   overflow: hidden;
-  width: 200px;
-  border-radius: 14px;
-  margin: 24px;
+  border-radius: 10px;
+  background: rgba(14, 14, 14, 0.5);
 }
 .container .seekbar span {
-  background-color: #44a8a0;
+  background-color: white;
   position: absolute;
   top: 0;
   left: 0;
-  height: 14px;
+  height: 10px;
   width: 0px;
-  border-radius: 14px;
+  border-radius: 10px;
 }
 .container .videoContainerCam .videoElementCam {
   width: 270px;
@@ -148,31 +204,29 @@ html, body, .viewport {
   opacity: 0;
 }
 .container .videoContainerOutput {
-  width: 100%;
   height: 30%;
   overflow: hidden;
   position: absolute;
+  background: #0e0e0e;
   z-index: 10;
   top: 0;
+  left: 50%;
+  width: auto;
+  transform: translateX(-50%);
 }
 .container .videoContainerOutput .videoElementOutput {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
   height: 100%;
   overflow: hidden;
+}
+.container .videoContainerOutput .uploadVideoNotice {
+  opacity: 0.4;
 }
 .container .videoContainerOutput .recordTimer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 5rem;
+  font-size: 4rem;
   color: white;
   font-weight: bold;
 }
@@ -180,7 +234,7 @@ html, body, .viewport {
   display: none;
   opacity: 0;
   position: absolute;
-  left: 40px;
+  left: calc(50% - 5px);
   top: 20px;
   width: 30px;
   height: 30px;
@@ -232,22 +286,15 @@ html, body, .viewport {
   }
 }
 .container .videoContainerRecording {
-  width: 100%;
   height: 30%;
-  overflow: hidden;
   position: absolute;
   z-index: 5;
   top: 0;
+  left: 50%;
+  width: auto;
+  transform: translateX(-50%);
 }
 .container .videoContainerRecording #recording {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
   height: 100%;
   overflow: hidden;
 }
@@ -267,32 +314,22 @@ html, body, .viewport {
   overflow: hidden;
 }
 .container .uploadNotice h2 {
-  font-size: 3rem;
-  margin: 20px 0 0 0;
+  font-size: 2.4rem;
+  margin: 0;
 }
 .container .uploadNotice p {
   font-size: 1rem;
   margin: 20px 0 40px 0;
   padding: 0;
 }
-.container .uploadNotice .uploadNoticePage1 {
-  align-items: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-}
 .container .uploadNotice .progressWrapper {
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  justify-content: center;
   width: 100%;
 }
 .container .uploadNotice .progressWrapper #uploadBar {
-  width: 100px;
+  width: 100%;
   height: 14px;
   -webkit-appearance: none;
   appearance: none;
-  margin: 24px;
   border-radius: 20px;
 }
 .container .uploadNotice .progressWrapper #uploadBar::-webkit-progress-bar {
@@ -303,13 +340,18 @@ html, body, .viewport {
   background-color: #44a8a0;
   border-radius: 14px;
 }
+.container .uploadNotice .uploadNoticePage1 {
+  width: 100%;
+}
 .container .uploadNotice .uploadNoticePage2 {
   display: none;
+  width: 100%;
   opacity: 0;
 }
 .container .uploadNotice .uploadNoticePage2 .uploadID::before {
   content: "Video ID";
   display: block;
+  font-family: "Segoe UI Bold", Helvetica, Arial, sans-serif;
 }
 .container .reportNotice {
   display: none;
@@ -327,17 +369,17 @@ html, body, .viewport {
   overflow: hidden;
 }
 .container .reportNotice h2 {
-  font-size: 3rem;
-  margin: 20px 0 0 0;
+  font-size: 2.4rem;
+  margin: 0;
 }
 .container .reportNotice p {
   font-size: 1rem;
-  margin: 20px 0 40px 0;
+  margin: 20px 0;
   padding: 0;
 }
 .container .reportNotice form div {
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+  margin-bottom: 12px;
+  font-size: 1rem;
 }
 .container .reportNotice form div label {
   margin-left: 20px;
@@ -369,9 +411,9 @@ html, body, .viewport {
 }
 .container .aboutNotice .mixmatchLogo {
   display: block;
-  width: 150px;
+  width: 100px;
   height: auto;
-  padding: 40px 0;
+  padding: 20px 0 20px 0;
   margin: 0 auto;
 }
 .container .aboutNotice .aboutButton {
@@ -396,7 +438,7 @@ html, body, .viewport {
 }
 .container .aboutNotice .aboutButtonTutorial {
   position: absolute;
-  bottom: 100px;
+  bottom: 80px;
   width: 100%;
   padding: 15px;
   background: #e27c5d;
@@ -407,19 +449,19 @@ html, body, .viewport {
   cursor: pointer;
 }
 .container .aboutNotice h2 {
-  font-size: 3rem;
-  margin: 20px 0 0 0;
+  font-size: 2.4rem;
+  margin: 0;
 }
 .container .aboutNotice p {
   font-size: 1rem;
-  margin: 20px 0 40px 0;
+  margin: 20px 0 0 0;
   padding: 0;
 }
 .container .aboutNotice .aboutPage {
   height: 75%;
 }
 .container .aboutNotice .aboutPage p {
-  height: 100%;
+  height: 90%;
   padding: 0 20px 20px 0;
   overflow-y: scroll;
   scrollbar-width: thin;
@@ -451,6 +493,9 @@ html, body, .viewport {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  height: auto;
+}
+.wrapperFullHeight {
   height: 100%;
 }
 
@@ -472,8 +517,8 @@ html, body, .viewport {
 }
 
 .controls .button {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   text-align: center;
   margin: 10px;
   z-index: 50;
@@ -486,34 +531,33 @@ html, body, .viewport {
 .controls .buttonChange {
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  right: 0;
   opacity: 0.5;
 }
 .controls .buttonFullscreen {
   position: absolute;
   bottom: 20px;
-  left: 80px;
-}
-.controls .buttonFullscreen img {
-  width: 100%;
-  height: 100%;
+  left: 50px;
 }
 .controls .buttonEdit {
   position: absolute;
   bottom: 20px;
-  left: 20px;
+  left: 0;
+  opacity: 0.4;
+  transition: all 0.4s;
+  border-radius: 10px;
 }
 .controls .buttonAbout {
   position: absolute;
   bottom: 20px;
-  right: 80px;
+  right: 50px;
 }
 .controls .buttonRecord {
   position: absolute;
-  left: calc(50% - 50px);
+  left: calc(50% - 40px);
   bottom: 20px;
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   border-radius: 100%;
   border: 4px solid #e27c5d;
   background: none;
@@ -522,10 +566,10 @@ html, body, .viewport {
 }
 .controls .buttonRecord::before {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 64px;
-  height: 64px;
+  top: 3px;
+  left: 3px;
+  width: 46px;
+  height: 46px;
   background: #e27c5d;
   border-radius: 100%;
   content: "";
@@ -534,10 +578,10 @@ html, body, .viewport {
 }
 .controls .buttonRecord.active::before {
   border-radius: 4px;
-  top: 21px;
-  left: 21px;
-  width: 30px;
-  height: 30px;
+  top: 14px;
+  left: 14px;
+  width: 24px;
+  height: 24px;
   transition: all 0.2s ease;
 }
 
@@ -550,36 +594,35 @@ html, body, .viewport {
   display: none;
   opacity: 0;
 }
-.editControls .muteVideo {
-  width: 40px;
-  height: 40px;
+
+.muteVideo {
+  width: 30px;
+  height: 30px;
   z-index: 100;
   position: absolute;
   top: 10px;
-  right: 30px;
+  right: 10px;
   cursor: pointer;
 }
-.editControls .reportVideo {
-  width: 40px;
-  height: 40px;
+
+.reportVideo {
+  width: 30px;
+  height: 30px;
   z-index: 100;
   position: absolute;
   top: 10px;
-  left: 30px;
+  left: 10px;
   cursor: pointer;
 }
-.editControls .uploadVideoNotice {
-  width: 40px;
-  height: 40px;
+
+.uploadVideoNotice {
+  width: 30px;
+  height: 30px;
   z-index: 100;
   position: absolute;
   top: 10px;
-  left: 30px;
+  left: 10px;
   cursor: pointer;
-}
-.editControls .showLiveVideo {
-  display: none;
-  opacity: 0;
 }
 
 .walkthrough {
@@ -624,13 +667,13 @@ html, body, .viewport {
   color: #3c636e;
 }
 .walkthrough .walkthroughBody .walkthroughScreens .walkthroughScreen img {
-  height: 50%;
+  width: 30%;
   display: block;
-  margin: 20px auto;
+  margin: 0 auto 20px auto;
 }
 .walkthrough .walkthroughBody .walkthroughScreens .walkthroughScreen h3 {
-  font-size: 3rem;
-  margin: 20px 0 0 0;
+  font-size: 2.4rem;
+  margin: 0;
 }
 .walkthrough .walkthroughBody .walkthroughScreens .walkthroughScreen p {
   font-size: 1rem;
@@ -674,6 +717,143 @@ html, body, .viewport {
   transition-delay: 0.4s;
 }
 
+.orientationLock {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: white;
+  z-index: 10000;
+  transition: all 1s ease;
+}
+.orientationLock .mixmatchLogoLock {
+  width: 100px;
+  position: absolute;
+  left: calc(50% - 50px);
+  top: calc(50% - 30px);
+}
+
+@media only screen and (min-width: 375px) {
+  body, html {
+    font-size: 16px;
+  }
+
+  .container .seekbar {
+    top: 25px;
+  }
+  .container .videoContainerOutput .recordTimer {
+    font-size: 5rem;
+  }
+  .container .aboutNotice h2 {
+    margin: 20px 0 0 0;
+  }
+  .container .aboutNotice .mixmatchLogo {
+    width: 150px;
+    padding: 40px 0;
+  }
+  .container .aboutNotice .aboutButtonTutorial {
+    bottom: 100px;
+  }
+  .container .reportNotice h2 {
+    margin: 20px 0 0 0;
+  }
+  .container .reportNotice form div {
+    margin-bottom: 20px;
+  }
+  .container .uploadNotice h2 {
+    margin: 20px 0 0 0;
+  }
+
+  .controls .button {
+    width: 50px;
+    height: 50px;
+  }
+  .controls .buttonChange {
+    right: 0;
+  }
+  .controls .buttonFullscreen {
+    left: 60px;
+  }
+  .controls .buttonEdit {
+    left: 0;
+  }
+  .controls .buttonAbout {
+    right: 60px;
+  }
+  .controls .buttonRecord {
+    height: 80px;
+    width: 80px;
+    left: calc(50% - 50px);
+  }
+  .controls .buttonRecord::before {
+    top: 4px;
+    left: 4px;
+    width: 64px;
+    height: 64px;
+  }
+  .controls .buttonRecord.active::before {
+    top: 21px;
+    left: 21px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .muteVideo {
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .reportVideo {
+    left: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .uploadVideoNotice {
+    left: 20px;
+    width: 40px;
+    height: 40px;
+  }
+}
+@media only screen and (min-width: 400px) {
+  .container .reportNotice p {
+    margin: 20px 0 40px 0;
+  }
+  .container .reportNotice form div {
+    font-size: 1.2rem;
+  }
+
+  .controls .buttonChange {
+    right: 20px;
+  }
+  .controls .buttonFullscreen {
+    left: 80px;
+  }
+  .controls .buttonEdit {
+    left: 20px;
+  }
+  .controls .buttonAbout {
+    right: 80px;
+  }
+  .controls .buttonRecord {
+    height: 80px;
+    width: 80px;
+  }
+  .controls .buttonRecord::before {
+    width: 64px;
+    height: 64px;
+  }
+  .controls .buttonRecord.active::before {
+    top: 21px;
+    left: 21px;
+    width: 30px;
+    height: 30px;
+  }
+}
 @media only screen and (min-width: 768px) {
   .buttonLeft {
     left: 20px;
@@ -700,53 +880,138 @@ html, body, .viewport {
     width: 540px;
     margin: 0 auto;
   }
+  .container .reportNotice h2 {
+    font-size: 3rem;
+  }
   .container .uploadNotice {
     width: 540px;
     margin: 0 auto;
   }
-  .container .uploadNotice .progressWrapper #uploadBar {
-    width: 200px;
+  .container .uploadNotice h2 {
+    font-size: 3rem;
   }
   .container .aboutNotice {
     width: 540px;
     margin: 0 auto;
+  }
+  .container .aboutNotice h2 {
+    font-size: 3rem;
   }
 
   .walkthrough {
     width: 540px;
     margin: 0 auto;
   }
+  .walkthrough .walkthroughBody .walkthroughScreens .walkthroughScreen h3 {
+    font-size: 3rem;
+  }
 
   .wrapper {
     width: 500px;
     margin: 0 auto;
   }
+
+  .controls .buttonChange {
+    right: 20px;
+  }
+  .controls .buttonFullscreen {
+    left: 100px;
+  }
+  .controls .buttonEdit {
+    left: 20px;
+  }
+  .controls .buttonAbout {
+    right: 100px;
+  }
+}
+@media only screen and (min-width: 768px) and (min-height: 1366px) {
+  .wrapper {
+    width: 700px;
+  }
+
+  .muteVideo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .reportVideo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .uploadVideoNotice {
+    width: 50px;
+    height: 50px;
+  }
+
+  .container .reportNotice {
+    width: 740px;
+  }
+  .container .uploadNotice {
+    width: 740px;
+  }
+  .container .aboutNotice {
+    width: 740px;
+  }
+
+  .walkthrough {
+    width: 740px;
+  }
+
+  .controls .buttonChange {
+    right: 20px;
+    width: 70px;
+    height: 70px;
+  }
+  .controls .buttonFullscreen {
+    left: 140px;
+    width: 70px;
+    height: 70px;
+  }
+  .controls .buttonEdit {
+    left: 20px;
+    width: 70px;
+    height: 70px;
+  }
+  .controls .buttonAbout {
+    right: 140px;
+    width: 70px;
+    height: 70px;
+  }
 }
 /* mouse, touch pad */
 @media (hover: hover) and (pointer: fine) {
-  .container .videoContainer .videoButton {
+  .container .videoButton {
     display: block;
     opacity: 1;
-    width: 20px;
+    width: 66px;
     cursor: pointer;
     position: absolute;
-    top: calc(50% - 20px);
     z-index: 100;
-    fill: #e27c5d;
   }
-  .container .videoContainer .videoButtonRight {
-    right: calc(50% - 320px);
+  .container .videoButtonRight {
+    left: calc(50% + 270px);
   }
-  .container .videoContainer .videoButtonLeft {
-    left: calc(50% - 320px);
+  .container .videoButtonLeft {
+    right: calc(50% + 270px);
+  }
+  .container .videoButton[data-index="1"] {
+    top: calc(15% - 35px);
+  }
+  .container .videoButton[data-index="2"] {
+    top: calc(45% - 35px);
+  }
+  .container .videoButton[data-index="3"] {
+    top: calc(75% - 35px);
+  }
+  .container .videoButton img {
+    margin: 20px;
   }
 }
-@media only screen and (hover: hover) and (pointer: fine) and (max-width: 768px) {
-  .container .videoContainer .videoButtonRight {
-    right: calc(50% - 240px);
-  }
-  .container .videoContainer .videoButtonLeft {
-    left: calc(50% - 240px);
+@media screen and (min-width: 320px) and (max-width: 812px) and (orientation: landscape) {
+  .orientationLock {
+    display: block;
+    opacity: 1;
   }
 }
 

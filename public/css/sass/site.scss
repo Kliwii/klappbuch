@@ -28,7 +28,7 @@ body, html {
     margin: 0;
     padding: 0;
     background: $backgroundColor;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
@@ -76,72 +76,137 @@ html, body, .viewport {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     position: relative;
     background: $backgroundColor;
 
+    .videoButton {
+        display: none;
+        opacity: 0;
+    }
+
     .videoContainer {
-        width: 100%; 
         height: 30%; 
         overflow: hidden;
         position: absolute;
         z-index: 5;
+        left: 50%;
+        transform: translateX(-50%);
 
-        &:nth-child(2) {
+        &.videoContainer1 {
             top: 0;
         }
 
-        &:nth-child(3) {
+        &.videoContainer2 {
             top: 30%;
         }
 
-        &:nth-child(4) {
+        &.videoContainer3 {
             top: 60%;
         }
 
         .videoElement {
-            position: absolute;
-            top: 50%; 
-            left: 50%;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-            min-width: 100%; 
-            min-height: 100%; 
-            width: auto;
             height: 100%;
             overflow: hidden;
         }
 
-        .videoButton {
-            display: none;
-            opacity: 0;
+        .animationContainerR {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            right: 100%;
+            z-index: 120;
+            background: $color2;
         }
+
+        .animationContainerL {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 100%;
+            z-index: 120;
+            background: $color2;
+        }
+
+        .animationRed {
+            background: $color1;
+        }
+
+        .animationGreen {
+            background: $color2;
+        }
+
+        .animationBlue {
+            background: $color3;
+        }
+
+        .changeAnimationRTL {
+            animation: revealRTL 1s 0s ease;
+        }
+
+        .changeAnimationLTR {
+            animation: revealLTR 1s 0s ease;
+        }
+
+        @keyframes revealRTL {
+            0%{
+              width: 0;
+              right: 0;
+            }
+            20%{
+              width: 100%;
+              right: 0;
+            }
+            80%{
+                width: 100%;
+                right: 0;
+            }
+            100% {
+              width: 0;
+              right: 100%;
+            }
+          }
+          
+          @keyframes revealLTR {
+            0%{
+              width: 0;
+              left: 0;
+            }
+            20%{
+              width: 100%;
+              left: 0;
+            }
+            80%{
+                width: 100%;
+                left: 0;
+            }
+            100% {
+              width: 0;
+              left: 100%;
+            }
+          }
     }
 
     .seekbar {  
         cursor: pointer;
-        position: inherit;
-        align-self: flex-start;
-        height: 14px;
-        border: 1px solid $color2;
+        width: 50%;
+        position: absolute;
+        top: 20px;
+        left: calc(50% - 25%);
+        height: 10px;
         overflow: hidden;
-        width: 200px;
-        border-radius: 14px;
-        margin: 24px;
+        border-radius: 10px;
+        background:rgba(14, 14, 14, .5);
 
         span {
-            background-color: $color2;
+            background-color: white;
             position: absolute;
             top: 0;
             left: 0;
-            height: 14px;
+            height: 10px;
             width: 0px;
-            border-radius: 14px;
+            border-radius: 10px;
         }
     }
     
@@ -173,24 +238,23 @@ html, body, .viewport {
     }
 
     .videoContainerOutput {
-        width: 100%;
         height: 30%;
         overflow: hidden;
         position: absolute;
+        background: $backgroundColor;
         z-index: 10;
         top: 0;
+        left: 50%;
+        width: auto;
+        transform: translateX(-50%);
 
         .videoElementOutput {
-            position: absolute;
-            top: 50%; 
-            left: 50%;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-            min-width: 100%; 
-            min-height: 100%; 
-            width: auto;
             height: 100%;
             overflow: hidden;
+        }
+
+        .uploadVideoNotice {
+            opacity: 0.4;
         }
 
         .recordTimer {
@@ -198,7 +262,7 @@ html, body, .viewport {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5rem;
+            font-size: 4rem;
             color: white;
             font-weight: bold;
         }
@@ -207,7 +271,7 @@ html, body, .viewport {
             display: none;
             opacity: 0;
             position: absolute;
-            left: 40px;
+            left: calc(50% - 5px);
             top: 20px;
             width: 30px;
             height: 30px;
@@ -265,22 +329,15 @@ html, body, .viewport {
     }
 
     .videoContainerRecording {
-        width: 100%;
         height: 30%;
-        overflow: hidden;
         position: absolute;
         z-index: 5;
         top: 0;
+        left: 50%;
+        width: auto;
+        transform: translateX(-50%);
 
         #recording {
-            position: absolute;
-            top: 50%; 
-            left: 50%;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-            min-width: 100%; 
-            min-height: 100%; 
-            width: auto;
             height: 100%;
             overflow: hidden;
         } 
@@ -302,8 +359,8 @@ html, body, .viewport {
         overflow: hidden;
 
         h2 {
-            font-size: 3rem;
-            margin: 20px 0 0 0;
+            font-size: 2.4rem;
+            margin: 0;
         }
 
         p {
@@ -312,25 +369,14 @@ html, body, .viewport {
             padding: 0;
         }
 
-        .uploadNoticePage1 {
-            align-items: flex-start;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
         .progressWrapper {
-            display: flex;
-            align-items: center;
-            align-self: flex-end;       
-            justify-content: center;
             width: 100%;
 
             #uploadBar {
-                width: 100px;
+                width: 100%;
                 height: 14px;
                 -webkit-appearance: none;
                 appearance: none;
-                margin: 24px;
                 border-radius: 20px;
     
                 &::-webkit-progress-bar {
@@ -345,8 +391,13 @@ html, body, .viewport {
             }
         }
 
+        .uploadNoticePage1 {
+            width: 100%;
+        }
+
         .uploadNoticePage2 {
             display: none;
+            width: 100%;
             opacity: 0;
 
             .uploadID {
@@ -354,6 +405,7 @@ html, body, .viewport {
                 &::before {
                     content: "Video ID";
                     display: block;
+                    font-family: 'Segoe UI Bold', Helvetica, Arial, sans-serif;
                 }
             }
         }
@@ -375,21 +427,21 @@ html, body, .viewport {
         overflow: hidden;
 
         h2 {
-            font-size: 3rem;
-            margin: 20px 0 0 0;
+            font-size: 2.4rem;
+            margin: 0;
         }
 
         p {
             font-size: 1rem;
-            margin: 20px 0 40px 0;
+            margin: 20px 0;
             padding: 0;
         }
 
         form {
 
             div {
-                margin-bottom: 20px;
-                font-size: 1.2rem;
+                margin-bottom: 12px;
+                font-size: 1rem;
 
                 label {
                     margin-left: 20px;
@@ -428,9 +480,9 @@ html, body, .viewport {
 
         .mixmatchLogo {
             display: block;
-            width: 150px;
+            width: 100px;
             height: auto;
-            padding: 40px 0;
+            padding: 20px 0 20px 0;
             margin: 0 auto;
         }
 
@@ -459,7 +511,7 @@ html, body, .viewport {
 
         .aboutButtonTutorial {
             position: absolute;
-            bottom: 100px;
+            bottom: 80px;
             width: 100%;
             padding: 15px;
             background: $color1;
@@ -471,13 +523,13 @@ html, body, .viewport {
         }
 
         h2 {
-            font-size: 3rem;
-            margin: 20px 0 0 0;
+            font-size: 2.4rem;
+            margin: 0;
         }
 
         p {
             font-size: 1rem;
-            margin: 20px 0 40px 0;
+            margin: 20px 0 0 0;
             padding: 0;
         }
 
@@ -485,7 +537,7 @@ html, body, .viewport {
             height: 75%;
 
             p {
-                height: 100%;
+                height: 90%;
                 padding: 0 20px 20px 0;
                 overflow-y: scroll;
                 scrollbar-width: thin;
@@ -525,7 +577,11 @@ html, body, .viewport {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: auto;
+
+    &FullHeight {
+        height: 100%;
+    }
 }
 
 .screenshot-image {
@@ -548,8 +604,8 @@ html, body, .viewport {
 .controls {
 
     .button {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         text-align: center;
         margin: 10px;
         z-index: 50;
@@ -564,39 +620,37 @@ html, body, .viewport {
     .buttonChange {
         position: absolute;
         bottom: 20px;
-        right: 20px;
+        right: 0;
         opacity: 0.5;
     }
 
     .buttonFullscreen {
         position: absolute;
         bottom: 20px;
-        left: 80px;
-
-        img {
-            width: 100%;
-            height: 100%;
-        }
+        left: 50px;
     }
 
     .buttonEdit {
         position: absolute;
         bottom: 20px;
-        left: 20px;
+        left: 0;
+        opacity: 0.4;
+        transition: all 0.4s;
+        border-radius: 10px;
     }
 
     .buttonAbout {
         position: absolute;
         bottom: 20px;
-        right: 80px;
+        right: 50px;
     }
 
     .buttonRecord {
         position: absolute;
-        left: calc(50% - 50px);
+        left: calc(50% - 40px);
         bottom: 20px;
-        height: 80px;
-        width: 80px;
+        height: 60px;
+        width: 60px;
         border-radius: 100%;
         border: 4px solid $color1;
         background: none;
@@ -605,10 +659,10 @@ html, body, .viewport {
 
         &::before {
             position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 64px;
-            height: 64px;
+            top: 3px;
+            left: 3px;
+            width: 46px;
+            height: 46px;
             background: $color1;
             border-radius: 100%;
             content: "";
@@ -618,10 +672,10 @@ html, body, .viewport {
 
         &.active::before {
             border-radius: 4px;
-            top: 21px;
-            left: 21px;
-            width: 30px;
-            height: 30px;
+            top: 14px;
+            left: 14px;
+            width: 24px;
+            height: 24px;
             transition: all 0.2s ease;
         }
     }
@@ -635,42 +689,36 @@ html, body, .viewport {
 .editControls {
     display: none;
     opacity: 0;
+}
 
-    .muteVideo {
-        width: 40px;
-        height: 40px;
-        z-index: 100;
-        position: absolute;
-        top: 10px;
-        right: 30px;
-        cursor: pointer;
-    }
-    
-    .reportVideo {
-        width: 40px;
-        height: 40px;
-        z-index: 100;
-        position: absolute;
-        top: 10px;
-        left: 30px;
-        cursor: pointer;
-    }
+.muteVideo {
+    width: 30px;
+    height: 30px;
+    z-index: 100;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
 
-    .uploadVideoNotice {
-        width: 40px;
-        height: 40px;
-        z-index: 100;
-        position: absolute;
-        top: 10px;
-        left: 30px;
-        cursor: pointer;
-    }
+.reportVideo {
+    width: 30px;
+    height: 30px;
+    z-index: 100;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+}
 
-    .showLiveVideo {
-        display: none;
-        opacity: 0;
-    }
-
+.uploadVideoNotice {
+    width: 30px;
+    height: 30px;
+    z-index: 100;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
 }
 
 //Walktrough
@@ -719,14 +767,14 @@ html, body, .viewport {
                 }
 
                 img {
-                    height: 50%;
+                    width: 30%;
                     display: block;
-                    margin: 20px auto;
+                    margin: 0 auto 20px auto;
                 }
 
                 h3 {
-                    font-size: 3rem;
-                    margin: 20px 0 0 0;
+                    font-size: 2.4rem;
+                    margin: 0;
                 }
 
                 p {
@@ -781,6 +829,202 @@ html, body, .viewport {
     }
 }
 
+.orientationLock {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: white;
+    z-index: 10000;
+    transition: all 1s ease;
+
+    .mixmatchLogoLock {
+        width: 100px;
+        position: absolute;
+        left: calc(50% - 50px);
+        top: calc(50% - 30px);
+    }
+}
+
+@media only screen and (min-width: 375px) {
+
+    body, html {
+        font-size: 16px;
+    }
+
+    .container {
+
+        .seekbar {
+            top: 25px;
+        }
+
+        .videoContainerOutput {
+    
+            .recordTimer {
+                font-size: 5rem;
+            }
+        }
+
+        .aboutNotice {
+
+            h2 {
+                margin: 20px 0 0 0;
+            }
+    
+            .mixmatchLogo {
+                width: 150px;
+                padding: 40px 0;
+            }
+
+            .aboutButtonTutorial {
+                bottom: 100px;
+            }
+        }
+
+        .reportNotice {
+
+            h2 {
+                margin: 20px 0 0 0;
+            }
+    
+            form {
+    
+                div {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+
+        .uploadNotice {
+
+            h2 {
+                margin: 20px 0 0 0;
+            }
+        }
+    }
+
+    .controls {
+
+        .button {
+            width: 50px;
+            height: 50px;
+        }
+    
+        .buttonChange {
+            right: 0;
+        }
+    
+        .buttonFullscreen {
+            left: 60px;
+        }
+    
+        .buttonEdit {
+            left: 0;
+        }
+    
+        .buttonAbout {
+            right: 60px;
+        }
+
+        .buttonRecord {
+            height: 80px;
+            width: 80px;
+            left: calc(50% - 50px);
+
+            &::before {
+                top: 4px;
+                left: 4px;
+                width: 64px;
+                height: 64px;
+            }
+    
+            &.active::before {
+                top: 21px;
+                left: 21px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
+    .muteVideo {
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .reportVideo {
+        left: 20px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .uploadVideoNotice {
+        left: 20px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media only screen and (min-width: 400px) {
+
+    .container {
+
+        .reportNotice {
+    
+            p {
+                margin: 20px 0 40px 0;
+            }
+    
+            form {
+    
+                div {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }
+
+    .controls {
+    
+        .buttonChange {
+            right: 20px;
+        }
+    
+        .buttonFullscreen {
+            left: 80px;
+        }
+    
+        .buttonEdit {
+            left: 20px;
+        }
+    
+        .buttonAbout {
+            right: 80px;
+        }
+
+        .buttonRecord {
+            height: 80px;
+            width: 80px;
+
+            &::before {
+                width: 64px;
+                height: 64px;
+            }
+    
+            &.active::before {
+                top: 21px;
+                left: 21px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+}
+
 @media only screen and (min-width: 768px) {
 
     .buttonLeft {
@@ -820,34 +1064,139 @@ html, body, .viewport {
         .reportNotice {
             width: 540px;
             margin: 0 auto;
+
+            h2 {
+                font-size: 3rem;
+            }
         }
 
         .uploadNotice {
             width: 540px;
             margin: 0 auto;
 
-            .progressWrapper {
-    
-                #uploadBar {
-                    width: 200px;
-                }
+            h2 {
+                font-size: 3rem;
             }
         }
 
         .aboutNotice {
             width: 540px;
             margin: 0 auto;
+    
+            h2 {
+                font-size: 3rem;
+            }
         }
     }
 
     .walkthrough {
         width: 540px;
         margin: 0 auto;
+
+        .walkthroughBody {
+    
+            .walkthroughScreens {
+    
+                .walkthroughScreen {
+
+                    h3 {
+                        font-size: 3rem;
+                    }
+                }
+            }
+        }
     }
 
     .wrapper {
         width: 500px;
         margin: 0 auto;
+    }
+
+    .controls {
+    
+        .buttonChange {
+            right: 20px;
+        }
+    
+        .buttonFullscreen {
+            left: 100px;
+        }
+    
+        .buttonEdit {
+            left: 20px;
+        }
+    
+        .buttonAbout {
+            right: 100px;
+        }
+    }
+
+    @media only screen and (min-height: 1366px) {
+
+        .wrapper {
+            width: 700px;
+        }
+
+        .muteVideo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .reportVideo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .uploadVideoNotice {
+            width: 50px;
+            height: 50px;
+        }
+
+        .container {
+
+            .reportNotice {
+                width: 740px;
+            }
+    
+            .uploadNotice {
+                width: 740px;
+            }
+    
+            .aboutNotice {
+                width: 740px;
+            }
+        }
+
+        .walkthrough {
+            width: 740px;
+        }
+
+        .controls {
+    
+            .buttonChange {
+                right: 20px;
+                width: 70px;
+                height: 70px;
+            }
+        
+            .buttonFullscreen {
+                left: 140px;
+                width: 70px;
+                height: 70px;
+            }
+        
+            .buttonEdit {
+                left: 20px;
+                width: 70px;
+                height: 70px;
+            }
+        
+            .buttonAbout {
+                right: 140px;
+                width: 70px;
+                height: 70px;
+            }
+        }
     }
 }
 
@@ -856,46 +1205,46 @@ html, body, .viewport {
 
     .container {
     
-        .videoContainer {
-    
-            .videoButton {
-                display: block;
-                opacity: 1;
-                width: 20px;
-                cursor: pointer;
-                position: absolute;
-                top: calc(50% - 20px);
-                z-index: 100;
-                fill: $color1;
+        .videoButton {
+            display: block;
+            opacity: 1;
+            width: 66px;
+            cursor: pointer;
+            position: absolute;
+            z-index: 100;
 
-                &Right {
-                    right: calc(50% - 320px);
-                }
+            &Right {
+                left: calc(50% + 270px);
+            }
 
-                &Left {
-                    left: calc(50% - 320px);
-                }
+            &Left {
+                right: calc(50% + 270px);
+            }
+
+            &[data-index="1"] {
+                top: calc(15% - 35px);
+            }
+
+            &[data-index="2"] {
+                top: calc(45% - 35px);
+            }
+
+            &[data-index="3"] {
+                 top: calc(75% - 35px);
+            }
+
+            img {
+                margin: 20px;
             }
         }
     }
+}
 
-    @media only screen and (max-width: 768px) {
-
-        .container {
+@media screen and (min-width: 320px) and (max-width: 812px) and (orientation: landscape) {
     
-            .videoContainer {
-        
-                .videoButton {
-    
-                    &Right {
-                        right: calc(50% - 240px);
-                    }
-    
-                    &Left {
-                        left: calc(50% - 240px);
-                    }
-                }
-            }
-        }
+    .orientationLock {
+        display: block;
+        opacity: 1;
     }
+
 }

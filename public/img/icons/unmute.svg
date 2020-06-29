@@ -6,6 +6,8 @@
 	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
 	.st1{fill:#FFFFFF;}
 	.st2{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
+	.st3{clip-path:url(#SVGID_2_);}
+	.st4{clip-path:url(#SVGID_4_);}
 </style>
 <g>
 	<g>
