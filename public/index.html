@@ -4,7 +4,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mixmatch</title>
+    <meta name="theme-color" content="#0e0e0e">
+    <title>Mixmatch</title>
+    <link rel="icon" href="favicon.png" type="image/png">
 
     <link rel="stylesheet" href="https://use.typekit.net/hta7idq.css">
     <link rel="stylesheet" type="text/css" href="css/site.css">
@@ -17,62 +19,61 @@
         <video autoplay="true" class="videoElementOutput" id="videoOutput" autoplay loop playsinline muted>
           <source src="" type="video/mp4" />
         </video>
-        <div class="wrapper">
-          <div class="recordTimer" id="recordTimer"></div>
-          <div class="recordStatus" id="recordStatus"></div>
-        </div>
+        <div class="uploadVideoNotice"><img src="img/icons/share.svg" alt="Upload"></div>
+        <div class="recordTimer" id="recordTimer"></div>
+        <div class="recordStatus" id="recordStatus"></div>
       </div>
       
-      <div class="videoContainer">
+      <div class="videoContainer videoContainer1">
+        <div class="animationContainerR animationRed" id="animationContainerR1"></div>
+        <div class="animationContainerL animationRed" id="animationContainerL1"></div>
         <video autoplay="true" class="videoElement" id="videoElement1" data-index="1" autoplay loop playsinline muted>
           <source src="img/videos/MPS33.mp4" type="video/mp4" />
         </video>
+        <div class="muteVideo" data-index="1"><img src="img/icons/mute.svg" alt="Mute"></div>
+        <div class="reportVideo" data-index="1"><img src="img/icons/report.svg" alt="Report"></div>
         <div class="editControls">
-          <div class="wrapper">
-            <div class="muteVideo" data-index="1"><img src="img/icons/mute.svg" alt="Mute"></div>
-            <div class="reportVideo" data-index="1"><img src="img/icons/report_idle.svg" alt="Report"></div>
-            <div class="seekbar">
-              <span></span>
-            </div>
+          <div class="seekbar">
+            <span></span>
+          </div>
         </div>
-        </div>
-        <div class="videoButton videoButtonRight" data-index="1"><img src="img/icons/arrow_right.svg" alt="Arrow Right"></div>
-        <div class="videoButton videoButtonLeft" data-index="1"><img src="img/icons/arrow_left.svg" alt="Arrow Left"></div>
       </div>
+      <div class="videoButton videoButtonRight" data-index="1"><img src="img/icons/right.svg" alt="Arrow Right"></div>
+      <div class="videoButton videoButtonLeft" data-index="1"><img src="img/icons/left.svg" alt="Arrow Left"></div>
 
-      <div class="videoContainer">
+      <div class="videoContainer videoContainer2">
+        <div class="animationContainerR animationGreen" id="animationContainerR2"></div>
+        <div class="animationContainerL animationGreen" id="animationContainerL2"></div>
         <video autoplay="true" class="videoElement" id="videoElement2" data-index="2" autoplay loop playsinline muted>
           <source src="img/videos/MPS32.mp4" type="video/mp4" />
         </video>
+        <div class="muteVideo" data-index="2"><img src="img/icons/mute.svg" alt="Mute"></div>
+        <div class="reportVideo" data-index="2"><img src="img/icons/report.svg" alt="Report"></div>
         <div class="editControls">
-          <div class="wrapper">
-            <div class="muteVideo" data-index="2"><img src="img/icons/mute.svg" alt="Mute"></div>
-            <div class="reportVideo" data-index="2"><img src="img/icons/report_idle.svg" alt="Report"></div>
-            <div class="seekbar">
-              <span></span>
-            </div>
+          <div class="seekbar">
+            <span></span>
           </div>
         </div>
-        <div class="videoButton videoButtonRight" data-index="2"><img src="img/icons/arrow_right.svg" alt="Arrow Right"></div>
-        <div class="videoButton videoButtonLeft" data-index="2"><img src="img/icons/arrow_left.svg" alt="Arrow Left"></div>
       </div>
+      <div class="videoButton videoButtonRight" data-index="2"><img src="img/icons/right.svg" alt="Arrow Right"></div>
+      <div class="videoButton videoButtonLeft" data-index="2"><img src="img/icons/left.svg" alt="Arrow Left"></div>
 
-      <div class="videoContainer">
+      <div class="videoContainer videoContainer3">
+        <div class="animationContainerR animationBlue" id="animationContainerR3"></div>
+        <div class="animationContainerL animationBlue" id="animationContainerL3"></div>
         <video autoplay="true" class="videoElement" id="videoElement3" data-index="3" autoplay loop playsinline muted>
           <source src="img/videos/MPS31.mp4" type="video/mp4" />
         </video>
+        <div class="muteVideo" data-index="3"><img src="img/icons/mute.svg" alt="Mute"></div>
+        <div class="reportVideo" data-index="3"><img src="img/icons/report.svg" alt="Report"></div>
         <div class="editControls">
-          <div class="wrapper">
-            <div class="muteVideo" data-index="3"><img src="img/icons/mute.svg" alt="Mute"></div>
-            <div class="reportVideo" data-index="3"><img src="img/icons/report_idle.svg" alt="Report"></div>
-            <div class="seekbar">
-              <span></span>
-            </div>
+          <div class="seekbar">
+            <span></span>
           </div>
         </div>
-        <div class="videoButton videoButtonRight" data-index="1"><img src="img/icons/arrow_right.svg" alt="Arrow Right"></div>
-        <div class="videoButton videoButtonLeft" data-index="1"><img src="img/icons/arrow_left.svg" alt="Arrow Left"></div>
       </div>
+      <div class="videoButton videoButtonRight" data-index="3"><img src="img/icons/right.svg" alt="Arrow Right"></div>
+      <div class="videoButton videoButtonLeft" data-index="3"><img src="img/icons/left.svg" alt="Arrow Left"></div>
 
       <div class="videoContainerCam">
         <video autoplay="true" class="videoElementCam" id="videoCam" data-index="0" autoplay loop playsinline muted>
@@ -86,21 +87,19 @@
 
       <div class="videoContainerRecording" id="videoContainerRecording">
         <video autoplay="true" class="videoElement" id="recording" data-index="4" autoplay loop playsinline muted>
-          <source src="" type="video/mp4" />
+          <source src="img/videos/MPS33.mp4" type="video/mp4" />
         </video>
+        <div class="muteVideo" data-index="4"><img src="img/icons/mute.svg" alt="Mute"></div>
+        <div class="uploadVideoNotice" id="uploadVideoNotice"><img src="img/icons/share.svg" alt="Upload"></div>
         <div class="editControls">
-          <div class="wrapper">
-            <div class="muteVideo" data-index="4"><img src="img/icons/mute.svg" alt="Mute"></div>
-            <div class="uploadVideoNotice" id="uploadVideoNotice"><img src="img/icons/share_idle.svg" alt="Upload"></div>
-            <div class="seekbar">
-              <span></span>
-            </div>
+          <div class="seekbar">
+            <span></span>
           </div>
         </div>
       </div>
 
       <div class="uploadNotice" id="uploadNotice">
-        <div class="wrapper">
+        <div class="wrapper wrapperFullHeight">
           <div class="uploadNoticePage1" id="uploadNoticePage1">
             <h2>Upload</h2>
             <p>Become a part of the mixmatch application yourself.</p>
@@ -120,7 +119,7 @@
       </div>
 
       <div class="reportNotice" id="reportNotice">
-        <div class="wrapper">
+        <div class="wrapper wrapperFullHeight">
           <div class="reportNoticePage1" id="reportNoticePage1">
             <h2>Report</h2>
             <p>Please choose one of the following reasons for reporting this video. We will review the video and handle your report confidentially and anonymously.</p>
@@ -146,8 +145,8 @@
                 <label for="copyrightReport">Copyright</label>
               </div>
               <div>
-                <input type="radio" id="spamReport" name="report" value="spam">
-                <label for="spamReport">Spam</label>
+                <input type="radio" id="otherReport" name="report" value="other">
+                <label for="otherReport">Other</label>
               </div>
             </form>
             <button class="button buttonLeft" id="reportCancel">Cancel</button>
@@ -163,9 +162,9 @@
       </div>
 
       <div class="aboutNotice" id="aboutNotice">
-        <div class="wrapper">
+        <div class="wrapper wrapperFullHeight">
           <div class="aboutNoticeOverview" id="aboutNoticeOverview">
-            <img class="mixmatchLogo" src="img/mixmatch.jpg" alt="Mixmatch Logo">
+            <img class="mixmatchLogo" src="img/mixmatch.svg" alt="Mixmatch Logo">
             <div class="aboutButton aboutButtonImpressum" id="aboutButtonImpressum">Impressum</div>
             <div class="aboutButton aboutButtonDatenschutz" id="aboutButtonDatenschutz">Datenschutz</div>
             <div class="aboutButtonTutorial" id="aboutButtonTutorial">Tutorial</div>
@@ -186,10 +185,10 @@
     
     <div class="controls">
       <div class="wrapper">
-        <div class="button buttonChange" title="Change Camera"><img src="img/icons/selfie_idle.svg" alt="Change Camera"></div>
+        <div class="button buttonChange" title="Change Camera"><img src="img/icons/switch_camera.svg" alt="Switch Camera"></div>
         <div class="button buttonFullscreen" title="Fullscreen"><img src="img/icons/fullscreen.svg" alt="Fullscreen"></div>
-        <div class="button buttonEdit" id="buttonEdit" title="Edit"><img src="img/icons/edit_idle.svg" alt="Edit"></div>
-        <div class="button buttonAbout" id="buttonAbout" title="About"><img src="img/icons/about_idle.svg" alt="About"></div>
+        <div class="button buttonEdit" id="buttonEdit" title="Edit"><img src="img/icons/edit.svg" alt="Edit"></div>
+        <div class="button buttonAbout" id="buttonAbout" title="About"><img src="img/icons/information.svg" alt="About"></div>
         <button id="startButton" class="button buttonRecord" title="Record"></button>
       </div>
     </div>
@@ -236,6 +235,10 @@
           <button id="walkthroughNext" class='button buttonRight'>Next</button>
         </div>
       </div>
+    </div>
+    
+    <div class="orientationLock">
+      <img class="mixmatchLogoLock" src="img/mixmatch.svg" alt="Mixmatch Logo">
     </div>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
