@@ -532,7 +532,7 @@ html, body, .viewport {
   position: absolute;
   bottom: 20px;
   right: 0;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 .controls .buttonFullscreen {
   position: absolute;
