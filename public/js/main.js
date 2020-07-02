@@ -104,8 +104,11 @@ function initCameraUI() {
     switchCameraButton.style.opacity = '1';
 
     switchCameraButton.addEventListener('click', function() {
-      if (currentFacingMode === 'environment') currentFacingMode = 'user';
-      else currentFacingMode = 'environment';
+      if (currentFacingMode == 'environment'){
+        currentFacingMode = 'user';
+      } else {
+        currentFacingMode = 'environment';
+      }
 
       initCameraStream();
     });
@@ -200,9 +203,15 @@ function initCanvas() {
     //console.log("Video Ratio over 1.6875");
   }
 
-  //Flip the Canvas so it isn't mirrored
-  //canvasContext.translate(canvas.width, 0); 
-  //canvasContext.scale(-1, 1);
+  //Flip the Canvas so it isn't mirrored when selfie camera active
+
+  if (currentFacingMode == "user") {
+    canvasContext.translate(canvas.width, 0); 
+    canvasContext.scale(-1, 1);
+  } else {
+    canvasContext.translate(0, 0); 
+    canvasContext.scale(1, 1);
+  }
 
   drawToCanvas();
   //Draw Video to Canvas
@@ -343,12 +352,13 @@ function startRecording(stream, lengthInMS) {
   .then(() => handleRecordingData(data));
 }
 
+let recordedBlob = 0;
 //Handle Recording Data
 function handleRecordingData(recordedChunks) {
   recordStatus.style.display = "none";
   recordStatus.style.opacity = "0";
 
-  let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
+  recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
   //URL that references the Blob is created and assigned to the recorded video and the download button
   recording.src = URL.createObjectURL(recordedBlob);
   //downloadButton.href = recording.src;
@@ -362,12 +372,11 @@ function handleRecordingData(recordedChunks) {
 
   //Adding Event Listener again, after Recording is complete
   startButton.addEventListener("click", startRecordingProcess);
-
-  uploadVideo.addEventListener("click", function() {
-    console.log("Upload Click: ", recordedBlob);
-    uploadToStorage(recordedBlob);
-  });
 }
+
+uploadVideo.addEventListener("click", function() {
+  uploadToStorage(recordedBlob);
+});
 
 //
 //Upload Notice
@@ -376,6 +385,8 @@ let uploadVideoNotice = document.getElementById("uploadVideoNotice");
 let uploadNotice = document.getElementById("uploadNotice");
 let uploadNoticeClose = document.getElementById("uploadNoticeClose");
 let uploadNoticeCancel = document.getElementById("uploadNoticeCancel");
+let uploadNoticePage1 = document.getElementById("uploadNoticePage1");
+let uploadNoticePage2 = document.getElementById("uploadNoticePage2");
 
 uploadVideoNotice.addEventListener("click", function() {
   uploadNotice.style.display = "block";
@@ -385,6 +396,11 @@ uploadVideoNotice.addEventListener("click", function() {
 uploadNoticeClose.addEventListener("click", function() {
   uploadNotice.style.display = "none";
   uploadNotice.style.opacity = "0";
+  uploadNoticePage1.style.display = "block";
+  uploadNoticePage1.style.opacity = "1";
+  uploadNoticePage2.style.display = "none";
+  uploadNoticePage2.style.opacity = "0";
+  showLiveFeed();
 });
 
 uploadNoticeCancel.addEventListener("click", function() {
@@ -395,14 +411,13 @@ uploadNoticeCancel.addEventListener("click", function() {
 //
 // Firebase Storage 
 //
-function uploadToStorage(recordedBlob) {
-  console.log("Upload: ", recordedBlob);
+function uploadToStorage(recordedBlobFile) {
 
   // Points to the root reference
   var storageRef = firebase.storage().ref();
 
   // File or Blob
-  var file = recordedBlob;
+  var file = recordedBlobFile;
 
   // Create the file metadata
   var metadata = {
@@ -473,10 +488,12 @@ function uploadToStorage(recordedBlob) {
   function uploadSuccessful() {
     let uploadID = document.getElementById("uploadID");
     let contentID = document.createTextNode(videoID);
+    uploadID.innerHTML = "";
     uploadID.appendChild(contentID);
 
-    let uploadNoticePage1 = document.getElementById("uploadNoticePage1");
-    let uploadNoticePage2 = document.getElementById("uploadNoticePage2");
+    //Reset uploadBar value
+    uploadBar.value = 0;
+
     uploadNoticePage1.style.display = "none";
     uploadNoticePage1.style.opacity = "0";
     uploadNoticePage2.style.display = "block";
@@ -995,27 +1012,24 @@ function editToggle() {
 //Record new Video (Display Live Feed)
 //
 //Swipe Left/Right on Touch to see Live Feed again
-detectswipe('videoContainerRecording', showLivefeed);
-function showLivefeed(el,d){
+detectswipe('videoContainerRecording', showLiveFeedMobile);
+function showLiveFeedMobile(el,d){
   if (d == "l" || d == "r") {
-    videoContainerRecording.style.zIndex = "5";
-    window.recordingPlaying = false;
-    editDeactivate();
-    buttonEdit.style.opacity = "0.4";
-    videos[3].muted = true;
-    muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
+    showLiveFeed();
   }
 }
 
 //Doubleclick on Desktop to see Live Feed again
-videoContainerRecording.addEventListener("dblclick", function(){
+videoContainerRecording.addEventListener("dblclick", showLiveFeed)
+
+function showLiveFeed() {
   videoContainerRecording.style.zIndex = "5";
   window.recordingPlaying = false;
   editDeactivate();
   buttonEdit.style.opacity = "0.4";
   videos[3].muted = true;
   muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
-});
+}  
 
 //
 //Walktrough Carousel
