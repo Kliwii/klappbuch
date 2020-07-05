@@ -96,14 +96,17 @@ html, body, .viewport {
 
         &.videoContainer1 {
             top: 0;
+            background: $color1;
         }
 
         &.videoContainer2 {
             top: 30%;
+            background: $color2;
         }
 
         &.videoContainer3 {
             top: 60%;
+            background: $color3;
         }
 
         .videoElement {
@@ -213,12 +216,11 @@ html, body, .viewport {
     .videoContainerCam {
 
         .videoElementCam {
-            width: 270px;
-            height: 160px;
-            position: absolute;
+            width: 1080px;
+            height: 640px;
+            position: fixed;
             top: 20px;
             left: 20px;
-            border: 1px solid rgb(221, 218, 46);
             opacity: 0;
         }
     }
@@ -226,12 +228,11 @@ html, body, .viewport {
     .videoContainerCanvas {
 
         .videoElementCanvas {
-            width: 270px;
-            height: 160px;
-            position: absolute;
+            width: 1080px;
+            height: 640px;
+            position: fixed;
             top: 20px;
             left: 20px;
-            border: 1px solid rgb(221, 218, 46);
             opacity: 0;
         }
 
@@ -336,6 +337,7 @@ html, body, .viewport {
         left: 50%;
         width: auto;
         transform: translateX(-50%);
+        background: $color3;
 
         #recording {
             height: 100%;
@@ -359,7 +361,7 @@ html, body, .viewport {
         overflow: hidden;
 
         h2 {
-            font-size: 2.4rem;
+            font-size: 2rem;
             margin: 0;
         }
 
@@ -427,13 +429,13 @@ html, body, .viewport {
         overflow: hidden;
 
         h2 {
-            font-size: 2.4rem;
+            font-size: 2rem;
             margin: 0;
         }
 
         p {
             font-size: 1rem;
-            margin: 20px 0;
+            margin: 10px 0 20px 0; 
             padding: 0;
         }
 
@@ -523,7 +525,7 @@ html, body, .viewport {
         }
 
         h2 {
-            font-size: 2.4rem;
+            font-size: 2rem;
             margin: 0;
         }
 
@@ -767,7 +769,7 @@ html, body, .viewport {
                 }
 
                 img {
-                    width: 30%;
+                    width: 20%;
                     display: block;
                     margin: 0 auto 20px auto;
                 }
@@ -779,7 +781,8 @@ html, body, .viewport {
 
                 p {
                     font-size: 1rem;
-                    margin-top: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 0;
                     padding-top: 0;
                     line-height: 1.6;
                 }
@@ -872,6 +875,7 @@ html, body, .viewport {
 
             h2 {
                 margin: 20px 0 0 0;
+                font-size: 2.4rem;
             }
     
             .mixmatchLogo {
@@ -888,6 +892,7 @@ html, body, .viewport {
 
             h2 {
                 margin: 20px 0 0 0;
+                font-size: 2.4rem;
             }
     
             form {
@@ -902,6 +907,7 @@ html, body, .viewport {
 
             h2 {
                 margin: 20px 0 0 0;
+                font-size: 2.4rem;
             }
         }
     }
@@ -1039,26 +1045,6 @@ html, body, .viewport {
 
         .videoContainerRecordingControls {
             top: 20px
-        }
-
-        .videoContainerCam {
-
-            .videoElementCam {
-                left: auto;
-                right: 20px;
-                top: 380px;
-            }
-    
-        }
-
-        .videoContainerCanvas {
-
-            .videoElementCanvas {
-                left: auto;
-                right: 20px;
-                top: 20px;
-            }
-    
         }
 
         .reportNotice {
@@ -1215,10 +1201,12 @@ html, body, .viewport {
 
             &Right {
                 left: calc(50% + 270px);
+                opacity: 0.4;
             }
 
             &Left {
                 right: calc(50% + 270px);
+                opacity: 0.4;
             }
 
             &[data-index="1"] {

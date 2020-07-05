@@ -8,7 +8,6 @@
     <title>Mixmatch</title>
     <link rel="icon" href="favicon.png" type="image/png">
 
-    <link rel="stylesheet" href="https://use.typekit.net/hta7idq.css">
     <link rel="stylesheet" type="text/css" href="css/site.css">
   </head>
 
@@ -102,7 +101,13 @@
         <div class="wrapper wrapperFullHeight">
           <div class="uploadNoticePage1" id="uploadNoticePage1">
             <h2>Upload</h2>
-            <p>Become a part of the mixmatch application yourself.</p>
+            <p>To become a part of mixmatch and the mixmatch installation you can upload your recorded video.</p>
+            <!--
+            <form>
+              <input type="checkbox" id="uploadAccept" name="Datenschutz" value="uploadAccept">
+              <label for="uploadAccept">Ich habe die Datenschutzbestimmungen gelesen und stimme diesen zu</label>
+            </form>
+            -->
             <div class="progressWrapper">
               <progress value="0%" max="100" id="uploadBar">0%</progress>
             </div>
@@ -111,7 +116,7 @@
           </div>
           <div class="uploadNoticePage2" id="uploadNoticePage2">
             <h2>Upload</h2>
-            <p>Thank you for participating in the mixmatch application. If you want to delete your video afterwards, copy your video ID and save it.</p>
+            <p>Thank you for participating in the mixmatch application. If you want to delete your video afterwards, copy the displayed ID and save it.</p>
             <div class="uploadID" id="uploadID"></div>
             <div class="button buttonLeft" id="uploadNoticeClose">Close</div>
           </div>
@@ -122,7 +127,7 @@
         <div class="wrapper wrapperFullHeight">
           <div class="reportNoticePage1" id="reportNoticePage1">
             <h2>Report</h2>
-            <p>Please choose one of the following reasons for reporting this video. We will review the video and handle your report confidentially and anonymously.</p>
+            <p>We want to keep mixmatch free of inappropriate content. If you think a video doesn't belong here, please choose one of the following reasons for reporting. We will review the video and handle your report confidentially and anonymously.</p>
             <form>
               <div>
                 <input type="radio" id="nudityReport" name="report" value="nudity">
@@ -154,7 +159,7 @@
           </div>
           <div class="reportNoticePage2" id="reportNoticePage2">
             <h2>Report</h2>
-            <p>Thank you for helping us keeping this application free of inappropriate content.</p>
+            <p>Thank you for helping us keeping mixmatch free of inappropriate content.</p>
             <p>Your mixmatch team</p>
             <button class="button buttonLeft" id="reportClose">Close</button>
           </div>
@@ -199,27 +204,30 @@
           <ul class="walkthroughScreens">
             <li class="walkthroughScreen walkthroughActive">
               <h3>Welcome</h3>
-              <p>The mixmatch app is a participatory application that presents the diversity of people in a creative and playful way. The app is inspired by the mix & match books you probaly know from your childhood. The books consisted of 3 parts that could be combined in any way and allowed the creation of funny combinations. Let's see how it works.</p>
+              <p>Do you remember those mix & match books from your childhood? We created a digital version.</p>
+              <p>With mixmatch you can create fun combinations of body parts and add your own to the mix. If you want you can upload your video to appear here and in an installation at Furtwangen University. The goal is to display diversity of people all around the world.</p>
+              <p>Let’s see how it works!</p>
             </li>
             <li class="walkthroughScreen">
               <img src="img/gifs/swipe.gif" alt="Swipe">
               <h3>Swipe</h3>
-              <p>Discover fun matches! You can see new slices by swiping left and right.</p>
+              <p>Swipe left and right for new slices and discover fun matches!</p>
             </li>
             <li class="walkthroughScreen">
               <img src="img/gifs/tap.gif" alt="Tap">
               <h3>Tap</h3>
-              <p>To switch the camera view to a bodypart of your choice just tap on it.</p>
+              <p>Tap on the slice where you want to activate your camera!</p>
             </li>
             <li class="walkthroughScreen">
               <img src="img/gifs/record.gif" alt="Record">
               <h3>Record</h3>
-              <p>Press record to become a part of the application yourself. Be creative.</p>
+              <p>Press record to capture your video on your device. After the countdown, it's exactly 4 seconds of showtime! Be creative!</p>
+              <p>If you want to become a part of the mixmatch installation yourself, you can upload your video afterwards.</p>
             </li>
             <li class="walkthroughScreen">
               <img src="img/gifs/edit.gif" alt="Edit">
               <h3>Edit</h3>
-              <p>Tap on options to play (or interact) with the videos. Change the playback position, turn off/on the sound and upload your recorded video.</p>
+              <p>Use the "Edit" button to enter edit mode. You can now change the playback position of each video loop, so all the slices fit just right.</p>
             </li>
           </ul>
         </div>

@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
 
     //Log RTC debug info
+    /*
     console.log(
       'RTC Debug info: ' +
         '\n OS:                   ' +
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         '\n WebAudio Supported:   ' +
         DetectRTC.isAudioContextSupported,
     );
+    */
   });
 });
 
@@ -156,7 +158,7 @@ function initCameraStream() {
     const track = window.stream.getVideoTracks()[0];
     const settings = track.getSettings();
     str = JSON.stringify(settings, null, 4);
-    console.log('settings ' + str);
+    //console.log('settings ' + str);
     //return navigator.mediaDevices.enumerateDevices();
   }
 
@@ -186,7 +188,6 @@ function initCameraStream() {
 //Canvas
 //
 function initCanvas() {
-
   //Use Canvas to set video to the correct aspect ratio of 1.6875
   let canvasRatio = canvas.width / canvas.height //1.6875
   let videoRatio = video.videoWidth / video.videoHeight
@@ -204,16 +205,21 @@ function initCanvas() {
   }
 
   //Flip the Canvas so it isn't mirrored when selfie camera active
-
   if (currentFacingMode == "user") {
+    //console.log("user");
+    canvasContext.setTransform(1, 0, 0, 1, 0, 0);
     canvasContext.translate(canvas.width, 0); 
     canvasContext.scale(-1, 1);
-  } else {
+    drawToCanvas();
+  }
+  if (currentFacingMode == "environment") {
+    //console.log("environment");
+    canvasContext.setTransform(1, 0, 0, 1, 0, 0);
     canvasContext.translate(0, 0); 
     canvasContext.scale(1, 1);
+    drawToCanvas();
   }
-
-  drawToCanvas();
+  
   //Draw Video to Canvas
   function drawToCanvas() {
     canvasContext.drawImage( video, 0, 0, wRatio, hRatio);
@@ -311,13 +317,13 @@ function startRecording(stream, lengthInMS) {
   let options = { mimeType: 'video/webm;codecs=vp9,opus' };
 
   if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-    console.error("mimeType: video/webm;codecs=vp9,opus is not supported");
+    //console.error("mimeType: video/webm;codecs=vp9,opus is not supported");
     options = {mimeType: 'video/webm;codecs=vp8,opus'};
     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-      console.error("mimeType: video/webm;codecs=vp8,opus is not supported");
+      //console.error("mimeType: video/webm;codecs=vp8,opus is not supported");
       options = {mimeType: 'video/webm'};
       if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-        console.error("mimeType: video/webm is not supported");
+        //console.error("mimeType: video/webm is not supported");
         options = {mimeType: ''};
       }
     }
@@ -331,7 +337,7 @@ function startRecording(stream, lengthInMS) {
   recorder.ondataavailable = event => data.push(event.data);
   //Starts recording
   recorder.start();
-  console.log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
+  //console.log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
 
   //New Promise, resolves when Media Recorder is stopped
   let stopped = new Promise((resolve, reject) => {
@@ -368,7 +374,7 @@ function handleRecordingData(recordedChunks) {
   startButton.classList.remove("active");
 
   //Size and Type of the recorded Media is logged
-  console.log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
+  //console.log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
 
   //Adding Event Listener again, after Recording is complete
   startButton.addEventListener("click", startRecordingProcess);
@@ -448,13 +454,13 @@ function uploadToStorage(recordedBlobFile) {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       uploadBar.value = progress;
-      console.log('Upload is ' + progress + '% done');
+      //console.log('Upload is ' + progress + '% done');
       switch (snapshot.state) {
         case firebase.storage.TaskState.PAUSED: // or 'paused'
-          console.log('Upload is paused');
+          //console.log('Upload is paused');
           break;
         case firebase.storage.TaskState.RUNNING: // or 'running'
-          console.log('Upload is running');
+          //console.log('Upload is running');
           break;
       }
     }, function(error) {
@@ -510,7 +516,7 @@ for (let i = 0; i < 3; i++) {
   videos[i].addEventListener("click", function() {
 
     if (window.recordingPlaying == false) {
-      console.log('Webcam Position: ' + this.dataset.index);
+      //console.log('Webcam Position: ' + this.dataset.index);
       window.webcamPosition = this.dataset.index;
   
       if (this.dataset.index == 1) {
@@ -1167,7 +1173,6 @@ function uploadReport(sliceIndex) {
     reason: selectedReport
   }
 
-  console.log(data);
   let ref = database.ref("reports");
   ref.push(data);
 
