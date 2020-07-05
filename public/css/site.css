@@ -87,12 +87,15 @@ html, body, .viewport {
 }
 .container .videoContainer.videoContainer1 {
   top: 0;
+  background: #e27c5d;
 }
 .container .videoContainer.videoContainer2 {
   top: 30%;
+  background: #44a8a0;
 }
 .container .videoContainer.videoContainer3 {
   top: 60%;
+  background: #3c636e;
 }
 .container .videoContainer .videoElement {
   height: 100%;
@@ -186,21 +189,19 @@ html, body, .viewport {
   border-radius: 10px;
 }
 .container .videoContainerCam .videoElementCam {
-  width: 270px;
-  height: 160px;
-  position: absolute;
+  width: 1080px;
+  height: 640px;
+  position: fixed;
   top: 20px;
   left: 20px;
-  border: 1px solid #ddda2e;
   opacity: 0;
 }
 .container .videoContainerCanvas .videoElementCanvas {
-  width: 270px;
-  height: 160px;
-  position: absolute;
+  width: 1080px;
+  height: 640px;
+  position: fixed;
   top: 20px;
   left: 20px;
-  border: 1px solid #ddda2e;
   opacity: 0;
 }
 .container .videoContainerOutput {
@@ -293,6 +294,7 @@ html, body, .viewport {
   left: 50%;
   width: auto;
   transform: translateX(-50%);
+  background: #3c636e;
 }
 .container .videoContainerRecording #recording {
   height: 100%;
@@ -314,7 +316,7 @@ html, body, .viewport {
   overflow: hidden;
 }
 .container .uploadNotice h2 {
-  font-size: 2.4rem;
+  font-size: 2rem;
   margin: 0;
 }
 .container .uploadNotice p {
@@ -369,12 +371,12 @@ html, body, .viewport {
   overflow: hidden;
 }
 .container .reportNotice h2 {
-  font-size: 2.4rem;
+  font-size: 2rem;
   margin: 0;
 }
 .container .reportNotice p {
   font-size: 1rem;
-  margin: 20px 0;
+  margin: 10px 0 20px 0;
   padding: 0;
 }
 .container .reportNotice form div {
@@ -449,7 +451,7 @@ html, body, .viewport {
   cursor: pointer;
 }
 .container .aboutNotice h2 {
-  font-size: 2.4rem;
+  font-size: 2rem;
   margin: 0;
 }
 .container .aboutNotice p {
@@ -667,7 +669,7 @@ html, body, .viewport {
   color: #3c636e;
 }
 .walkthrough .walkthroughBody .walkthroughScreens .walkthroughScreen img {
-  width: 30%;
+  width: 20%;
   display: block;
   margin: 0 auto 20px auto;
 }
@@ -677,7 +679,8 @@ html, body, .viewport {
 }
 .walkthrough .walkthroughBody .walkthroughScreens .walkthroughScreen p {
   font-size: 1rem;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 0;
   padding-top: 0;
   line-height: 1.6;
 }
@@ -749,6 +752,7 @@ html, body, .viewport {
   }
   .container .aboutNotice h2 {
     margin: 20px 0 0 0;
+    font-size: 2.4rem;
   }
   .container .aboutNotice .mixmatchLogo {
     width: 150px;
@@ -759,12 +763,14 @@ html, body, .viewport {
   }
   .container .reportNotice h2 {
     margin: 20px 0 0 0;
+    font-size: 2.4rem;
   }
   .container .reportNotice form div {
     margin-bottom: 20px;
   }
   .container .uploadNotice h2 {
     margin: 20px 0 0 0;
+    font-size: 2.4rem;
   }
 
   .controls .button {
@@ -864,16 +870,6 @@ html, body, .viewport {
   }
 
   .container .videoContainerRecordingControls {
-    top: 20px;
-  }
-  .container .videoContainerCam .videoElementCam {
-    left: auto;
-    right: 20px;
-    top: 380px;
-  }
-  .container .videoContainerCanvas .videoElementCanvas {
-    left: auto;
-    right: 20px;
     top: 20px;
   }
   .container .reportNotice {
@@ -991,9 +987,11 @@ html, body, .viewport {
   }
   .container .videoButtonRight {
     left: calc(50% + 270px);
+    opacity: 0.4;
   }
   .container .videoButtonLeft {
     right: calc(50% + 270px);
+    opacity: 0.4;
   }
   .container .videoButton[data-index="1"] {
     top: calc(15% - 35px);
