@@ -11,6 +11,7 @@ let videoContainerRecording = document.querySelector('.videoContainerRecording')
 let recording = document.getElementById("recording");
 let startButton = document.getElementById("startButton");
 let uploadVideo = document.getElementById("uploadVideo");
+let uploadAccept = document.getElementById("uploadAccept");
 let uploadBar = document.getElementById("uploadBar");
 let recordStatus = document.getElementById("recordStatus");
 let buttonEdit = document.getElementById("buttonEdit");
@@ -104,18 +105,19 @@ function initCameraUI() {
   //Switch Cameras 
   if (amountOfCameras > 1) {
     switchCameraButton.style.opacity = '1';
-
-    switchCameraButton.addEventListener('click', function() {
-      if (currentFacingMode == 'environment'){
-        currentFacingMode = 'user';
-      } else {
-        currentFacingMode = 'environment';
-      }
-
-      initCameraStream();
-    });
+    switchCameraButton.addEventListener('click', switchCamera);
   }
 }
+
+function switchCamera() {
+  if (currentFacingMode == 'environment'){
+    currentFacingMode = 'user';
+  } else {
+    currentFacingMode = 'environment';
+  }
+
+  initCameraStream();
+};
 
 //
 //Init Camera Stream
@@ -284,6 +286,8 @@ function startRecordingProcess() {
   window.recordingPlaying = true;
   editDeactivate();
   buttonEdit.style.opacity = "0.4";
+  switchCameraButton.style.opacity = '0.4';
+  switchCameraButton.removeEventListener('click', switchCamera);
   //Remove Event Listener until video recorded
   startButton.removeEventListener("click", startRecordingProcess);
 
@@ -380,8 +384,23 @@ function handleRecordingData(recordedChunks) {
   startButton.addEventListener("click", startRecordingProcess);
 }
 
-uploadVideo.addEventListener("click", function() {
+function uploadAccepted() {
   uploadToStorage(recordedBlob);
+  uploadAccept.checked = false;
+  uploadVideo.style.opacity = "0.5";
+  uploadVideo.removeEventListener("click", uploadAccepted);
+};
+
+uploadAccept.addEventListener("change", function() {
+  if (uploadAccept.checked) {
+    //console.log("Accepted");
+    uploadVideo.style.opacity = "1";
+    uploadVideo.addEventListener("click", uploadAccepted);
+  } else {
+    //console.log("Not Accepted");
+    uploadVideo.style.opacity = "0.5";
+    uploadVideo.removeEventListener("click", uploadAccepted);
+  }
 });
 
 //
@@ -1033,6 +1052,8 @@ function showLiveFeed() {
   window.recordingPlaying = false;
   editDeactivate();
   buttonEdit.style.opacity = "0.4";
+  switchCameraButton.style.opacity = '1';
+  switchCameraButton.addEventListener('click', switchCamera);
   videos[3].muted = true;
   muteVideoButton[3].firstElementChild.src = "img/icons/mute.svg";
 }  

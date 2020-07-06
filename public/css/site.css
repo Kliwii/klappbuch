@@ -321,8 +321,11 @@ html, body, .viewport {
 }
 .container .uploadNotice p {
   font-size: 1rem;
-  margin: 20px 0 40px 0;
+  margin: 20px 0 0 0;
   padding: 0;
+}
+.container .uploadNotice form {
+  margin: 20px 0;
 }
 .container .uploadNotice .progressWrapper {
   width: 100%;
@@ -345,10 +348,17 @@ html, body, .viewport {
 .container .uploadNotice .uploadNoticePage1 {
   width: 100%;
 }
+.container .uploadNotice .uploadNoticePage1 #uploadVideo {
+  opacity: 0.5;
+  transition: all 0.4 ease;
+}
 .container .uploadNotice .uploadNoticePage2 {
   display: none;
   width: 100%;
   opacity: 0;
+}
+.container .uploadNotice .uploadNoticePage2 .uploadID {
+  margin: 20px 0 0 0;
 }
 .container .uploadNotice .uploadNoticePage2 .uploadID::before {
   content: "Video ID";
