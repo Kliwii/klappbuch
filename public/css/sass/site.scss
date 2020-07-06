@@ -367,8 +367,12 @@ html, body, .viewport {
 
         p {
             font-size: 1rem;
-            margin: 20px 0 40px 0;
+            margin: 20px 0 0 0;
             padding: 0;
+        }
+
+        form {
+            margin: 20px 0;
         }
 
         .progressWrapper {
@@ -395,6 +399,11 @@ html, body, .viewport {
 
         .uploadNoticePage1 {
             width: 100%;
+
+            #uploadVideo {
+                opacity: 0.5;
+                transition: all 0.4 ease;
+            }
         }
 
         .uploadNoticePage2 {
@@ -403,6 +412,7 @@ html, body, .viewport {
             opacity: 0;
 
             .uploadID {
+                margin: 20px 0 0 0;
 
                 &::before {
                     content: "Video ID";
