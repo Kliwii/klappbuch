@@ -1211,6 +1211,7 @@ let aboutButtonDatenschutz = document.getElementById("aboutButtonDatenschutz");
 let aboutPageImpressum = document.getElementById("aboutPageImpressum");
 let aboutPageDatenschutz = document.getElementById("aboutPageDatenschutz");
 let aboutButtonTutorial = document.getElementById("aboutButtonTutorial");
+let privacyPolicyLink = document.getElementById("privacyPolicyLink");
 
 buttonAbout.addEventListener("click", function() {
   aboutNotice.style.display = "block";
@@ -1236,6 +1237,15 @@ aboutButtonImpressum.addEventListener("click", function() {
 });
 
 aboutButtonDatenschutz.addEventListener("click", function() {
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageDatenschutz.style.display = "block";
+  aboutPageDatenschutz.style.opacity = "1";
+});
+
+privacyPolicyLink.addEventListener("click", function() {
+  aboutNotice.style.display = "block";
+  aboutNotice.style.opacity = "1";
   aboutNoticeOverview.style.display = "none";
   aboutNoticeOverview.style.opacity = "0";
   aboutPageDatenschutz.style.display = "block";

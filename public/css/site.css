@@ -348,6 +348,14 @@ html, body, .viewport {
 .container .uploadNotice .uploadNoticePage1 {
   width: 100%;
 }
+.container .uploadNotice .uploadNoticePage1 #privacyPolicyLink {
+  display: inline;
+  color: #3c636e;
+  cursor: pointer;
+}
+.container .uploadNotice .uploadNoticePage1 #privacyPolicyLink:hover {
+  text-decoration: underline;
+}
 .container .uploadNotice .uploadNoticePage1 #uploadVideo {
   opacity: 0.5;
   transition: all 0.4 ease;
@@ -390,7 +398,7 @@ html, body, .viewport {
   padding: 0;
 }
 .container .reportNotice form div {
-  margin-bottom: 12px;
+  margin-bottom: 5px;
   font-size: 1rem;
 }
 .container .reportNotice form div label {
@@ -750,6 +758,24 @@ html, body, .viewport {
 }
 
 @media only screen and (min-width: 375px) {
+  .container .reportNotice form div {
+    margin-bottom: 12px;
+  }
+
+  .controls .buttonChange {
+    right: 0;
+  }
+  .controls .buttonFullscreen {
+    left: 60px;
+  }
+  .controls .buttonEdit {
+    left: 0;
+  }
+  .controls .buttonAbout {
+    right: 60px;
+  }
+}
+@media only screen and (min-width: 400px) {
   body, html {
     font-size: 16px;
   }
@@ -757,8 +783,9 @@ html, body, .viewport {
   .container .seekbar {
     top: 25px;
   }
-  .container .videoContainerOutput .recordTimer {
-    font-size: 5rem;
+  .container .reportNotice h2 {
+    margin: 20px 0 0 0;
+    font-size: 2.4rem;
   }
   .container .aboutNotice h2 {
     margin: 20px 0 0 0;
@@ -771,13 +798,6 @@ html, body, .viewport {
   .container .aboutNotice .aboutButtonTutorial {
     bottom: 100px;
   }
-  .container .reportNotice h2 {
-    margin: 20px 0 0 0;
-    font-size: 2.4rem;
-  }
-  .container .reportNotice form div {
-    margin-bottom: 20px;
-  }
   .container .uploadNotice h2 {
     margin: 20px 0 0 0;
     font-size: 2.4rem;
@@ -788,16 +808,16 @@ html, body, .viewport {
     height: 50px;
   }
   .controls .buttonChange {
-    right: 0;
+    right: 20px;
   }
   .controls .buttonFullscreen {
-    left: 60px;
+    left: 80px;
   }
   .controls .buttonEdit {
-    left: 0;
+    left: 20px;
   }
   .controls .buttonAbout {
-    right: 60px;
+    right: 80px;
   }
   .controls .buttonRecord {
     height: 80px;
@@ -835,41 +855,6 @@ html, body, .viewport {
     height: 40px;
   }
 }
-@media only screen and (min-width: 400px) {
-  .container .reportNotice p {
-    margin: 20px 0 40px 0;
-  }
-  .container .reportNotice form div {
-    font-size: 1.2rem;
-  }
-
-  .controls .buttonChange {
-    right: 20px;
-  }
-  .controls .buttonFullscreen {
-    left: 80px;
-  }
-  .controls .buttonEdit {
-    left: 20px;
-  }
-  .controls .buttonAbout {
-    right: 80px;
-  }
-  .controls .buttonRecord {
-    height: 80px;
-    width: 80px;
-  }
-  .controls .buttonRecord::before {
-    width: 64px;
-    height: 64px;
-  }
-  .controls .buttonRecord.active::before {
-    top: 21px;
-    left: 21px;
-    width: 30px;
-    height: 30px;
-  }
-}
 @media only screen and (min-width: 768px) {
   .buttonLeft {
     left: 20px;
@@ -882,12 +867,22 @@ html, body, .viewport {
   .container .videoContainerRecordingControls {
     top: 20px;
   }
+  .container .videoContainerOutput .recordTimer {
+    font-size: 5rem;
+  }
   .container .reportNotice {
     width: 540px;
     margin: 0 auto;
   }
   .container .reportNotice h2 {
     font-size: 3rem;
+  }
+  .container .reportNotice p {
+    margin: 20px 0 40px 0;
+  }
+  .container .reportNotice form div {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
   }
   .container .uploadNotice {
     width: 540px;

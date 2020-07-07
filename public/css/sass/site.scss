@@ -400,6 +400,16 @@ html, body, .viewport {
         .uploadNoticePage1 {
             width: 100%;
 
+            #privacyPolicyLink {
+                display: inline;
+                color: $color3;
+                cursor: pointer; 
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
             #uploadVideo {
                 opacity: 0.5;
                 transition: all 0.4 ease;
@@ -452,7 +462,7 @@ html, body, .viewport {
         form {
 
             div {
-                margin-bottom: 12px;
+                margin-bottom: 5px;
                 font-size: 1rem;
 
                 label {
@@ -864,6 +874,41 @@ html, body, .viewport {
 
 @media only screen and (min-width: 375px) {
 
+    .container {
+
+        .reportNotice {
+    
+            form {
+    
+                div {
+                    margin-bottom: 12px;
+                }
+            }
+        }
+    }
+
+    .controls {
+    
+        .buttonChange {
+            right: 0;
+        }
+    
+        .buttonFullscreen {
+            left: 60px;
+        }
+    
+        .buttonEdit {
+            left: 0;
+        }
+    
+        .buttonAbout {
+            right: 60px;
+        }
+    }
+}
+
+@media only screen and (min-width: 400px) {
+
     body, html {
         font-size: 16px;
     }
@@ -874,10 +919,11 @@ html, body, .viewport {
             top: 25px;
         }
 
-        .videoContainerOutput {
-    
-            .recordTimer {
-                font-size: 5rem;
+        .reportNotice {
+
+            h2 {
+                margin: 20px 0 0 0;
+                font-size: 2.4rem;
             }
         }
 
@@ -898,21 +944,6 @@ html, body, .viewport {
             }
         }
 
-        .reportNotice {
-
-            h2 {
-                margin: 20px 0 0 0;
-                font-size: 2.4rem;
-            }
-    
-            form {
-    
-                div {
-                    margin-bottom: 20px;
-                }
-            }
-        }
-
         .uploadNotice {
 
             h2 {
@@ -930,19 +961,19 @@ html, body, .viewport {
         }
     
         .buttonChange {
-            right: 0;
+            right: 20px;
         }
     
         .buttonFullscreen {
-            left: 60px;
+            left: 80px;
         }
     
         .buttonEdit {
-            left: 0;
+            left: 20px;
         }
     
         .buttonAbout {
-            right: 60px;
+            right: 80px;
         }
 
         .buttonRecord {
@@ -985,62 +1016,6 @@ html, body, .viewport {
     }
 }
 
-@media only screen and (min-width: 400px) {
-
-    .container {
-
-        .reportNotice {
-    
-            p {
-                margin: 20px 0 40px 0;
-            }
-    
-            form {
-    
-                div {
-                    font-size: 1.2rem;
-                }
-            }
-        }
-    }
-
-    .controls {
-    
-        .buttonChange {
-            right: 20px;
-        }
-    
-        .buttonFullscreen {
-            left: 80px;
-        }
-    
-        .buttonEdit {
-            left: 20px;
-        }
-    
-        .buttonAbout {
-            right: 80px;
-        }
-
-        .buttonRecord {
-            height: 80px;
-            width: 80px;
-
-            &::before {
-                width: 64px;
-                height: 64px;
-            }
-    
-            &.active::before {
-                top: 21px;
-                left: 21px;
-                width: 30px;
-                height: 30px;
-            }
-        }
-    }
-}
-
 @media only screen and (min-width: 768px) {
 
     .buttonLeft {
@@ -1057,12 +1032,31 @@ html, body, .viewport {
             top: 20px
         }
 
+        .videoContainerOutput {
+    
+            .recordTimer {
+                font-size: 5rem;
+            }
+        }
+
         .reportNotice {
             width: 540px;
             margin: 0 auto;
 
             h2 {
                 font-size: 3rem;
+            }
+
+            p {
+                margin: 20px 0 40px 0;
+            }
+
+            form {
+    
+                div {
+                    margin-bottom: 20px;
+                    font-size: 1.2rem;
+                }
             }
         }
 
