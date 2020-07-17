@@ -400,6 +400,16 @@ html, body, .viewport {
         .uploadNoticePage1 {
             width: 100%;
 
+            #termsOfUseLink {
+                display: inline;
+                color: $color3;
+                cursor: pointer; 
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
             #privacyPolicyLink {
                 display: inline;
                 color: $color3;
@@ -545,7 +555,7 @@ html, body, .viewport {
         }
 
         h2 {
-            font-size: 2rem;
+            font-size: 1.4rem;
             margin: 0;
         }
 
@@ -558,7 +568,7 @@ html, body, .viewport {
         .aboutPage {
             height: 75%;
 
-            p {
+            .scroll {
                 height: 90%;
                 padding: 0 20px 20px 0;
                 overflow-y: scroll;
@@ -589,6 +599,21 @@ html, body, .viewport {
         .aboutPageDatenschutz {
             display: none;
             opacity: 0;
+        }
+
+        .aboutPageNutzungsbedingungen {
+            display: none;
+            opacity: 0;
+
+            #privacyPolicyLink2 {
+                display: inline;
+                color: $color3;
+                cursor: pointer; 
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }
@@ -931,7 +956,7 @@ html, body, .viewport {
 
             h2 {
                 margin: 20px 0 0 0;
-                font-size: 2.4rem;
+                font-size: 1.6rem;
             }
     
             .mixmatchLogo {
@@ -1074,7 +1099,7 @@ html, body, .viewport {
             margin: 0 auto;
     
             h2 {
-                font-size: 3rem;
+                font-size: 2rem;
             }
         }
     }
