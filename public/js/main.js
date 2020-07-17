@@ -1208,10 +1208,14 @@ let aboutNoticeOverview = document.getElementById("aboutNoticeOverview");
 let aboutNoticeClose = document.getElementById("aboutNoticeClose");
 let aboutButtonImpressum = document.getElementById("aboutButtonImpressum");
 let aboutButtonDatenschutz = document.getElementById("aboutButtonDatenschutz");
+let aboutButtonNutzungsbedingungen = document.getElementById("aboutButtonNutzungsbedingungen");
 let aboutPageImpressum = document.getElementById("aboutPageImpressum");
 let aboutPageDatenschutz = document.getElementById("aboutPageDatenschutz");
+let aboutPageNutzungsbedingungen = document.getElementById("aboutPageNutzungsbedingungen");
 let aboutButtonTutorial = document.getElementById("aboutButtonTutorial");
+let termsOfUseLink = document.getElementById("termsOfUseLink");
 let privacyPolicyLink = document.getElementById("privacyPolicyLink");
+let privacyPolicyLink2 = document.getElementById("privacyPolicyLink2");
 
 buttonAbout.addEventListener("click", function() {
   aboutNotice.style.display = "block";
@@ -1225,6 +1229,8 @@ aboutNoticeClose.addEventListener("click", function() {
   aboutPageImpressum.style.opacity = "0";
   aboutPageDatenschutz.style.display = "none";
   aboutPageDatenschutz.style.opacity = "0";
+  aboutPageNutzungsbedingungen.style.display = "none";
+  aboutPageNutzungsbedingungen.style.opacity = "0";
   aboutNoticeOverview.style.display = "block";
   aboutNoticeOverview.style.opacity = "1";
 });
@@ -1243,11 +1249,34 @@ aboutButtonDatenschutz.addEventListener("click", function() {
   aboutPageDatenschutz.style.opacity = "1";
 });
 
+aboutButtonNutzungsbedingungen.addEventListener("click", function() {
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageNutzungsbedingungen.style.display = "block";
+  aboutPageNutzungsbedingungen.style.opacity = "1";
+});
+
+termsOfUseLink.addEventListener("click", function() {
+  aboutNotice.style.display = "block";
+  aboutNotice.style.opacity = "1";
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageNutzungsbedingungen.style.display = "block";
+  aboutPageNutzungsbedingungen.style.opacity = "1";
+});
+
 privacyPolicyLink.addEventListener("click", function() {
   aboutNotice.style.display = "block";
   aboutNotice.style.opacity = "1";
   aboutNoticeOverview.style.display = "none";
   aboutNoticeOverview.style.opacity = "0";
+  aboutPageDatenschutz.style.display = "block";
+  aboutPageDatenschutz.style.opacity = "1";
+});
+
+privacyPolicyLink2.addEventListener("click", function() {
+  aboutPageNutzungsbedingungen.style.display = "none";
+  aboutPageNutzungsbedingungen.style.opacity = "0";
   aboutPageDatenschutz.style.display = "block";
   aboutPageDatenschutz.style.opacity = "1";
 });

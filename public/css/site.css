@@ -348,6 +348,14 @@ html, body, .viewport {
 .container .uploadNotice .uploadNoticePage1 {
   width: 100%;
 }
+.container .uploadNotice .uploadNoticePage1 #termsOfUseLink {
+  display: inline;
+  color: #3c636e;
+  cursor: pointer;
+}
+.container .uploadNotice .uploadNoticePage1 #termsOfUseLink:hover {
+  text-decoration: underline;
+}
 .container .uploadNotice .uploadNoticePage1 #privacyPolicyLink {
   display: inline;
   color: #3c636e;
@@ -469,7 +477,7 @@ html, body, .viewport {
   cursor: pointer;
 }
 .container .aboutNotice h2 {
-  font-size: 2rem;
+  font-size: 1.4rem;
   margin: 0;
 }
 .container .aboutNotice p {
@@ -480,20 +488,20 @@ html, body, .viewport {
 .container .aboutNotice .aboutPage {
   height: 75%;
 }
-.container .aboutNotice .aboutPage p {
+.container .aboutNotice .aboutPage .scroll {
   height: 90%;
   padding: 0 20px 20px 0;
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #e27c5d white;
 }
-.container .aboutNotice .aboutPage p::-webkit-scrollbar {
+.container .aboutNotice .aboutPage .scroll::-webkit-scrollbar {
   width: 11px;
 }
-.container .aboutNotice .aboutPage p::-webkit-scrollbar-track {
+.container .aboutNotice .aboutPage .scroll::-webkit-scrollbar-track {
   background: white;
 }
-.container .aboutNotice .aboutPage p::-webkit-scrollbar-thumb {
+.container .aboutNotice .aboutPage .scroll::-webkit-scrollbar-thumb {
   background-color: #e27c5d;
   border-radius: 6px;
   border: 3px solid white;
@@ -505,6 +513,18 @@ html, body, .viewport {
 .container .aboutNotice .aboutPageDatenschutz {
   display: none;
   opacity: 0;
+}
+.container .aboutNotice .aboutPageNutzungsbedingungen {
+  display: none;
+  opacity: 0;
+}
+.container .aboutNotice .aboutPageNutzungsbedingungen #privacyPolicyLink2 {
+  display: inline;
+  color: #3c636e;
+  cursor: pointer;
+}
+.container .aboutNotice .aboutPageNutzungsbedingungen #privacyPolicyLink2:hover {
+  text-decoration: underline;
 }
 
 .wrapper {
@@ -789,7 +809,7 @@ html, body, .viewport {
   }
   .container .aboutNotice h2 {
     margin: 20px 0 0 0;
-    font-size: 2.4rem;
+    font-size: 1.6rem;
   }
   .container .aboutNotice .mixmatchLogo {
     width: 150px;
@@ -896,7 +916,7 @@ html, body, .viewport {
     margin: 0 auto;
   }
   .container .aboutNotice h2 {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 
   .walkthrough {
