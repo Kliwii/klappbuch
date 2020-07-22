@@ -499,7 +499,7 @@ html, body, .viewport {
         right: 20px;
         bottom: 20px;
         left: 20px;
-        z-index: 1000;
+        z-index: 1010;
         background: #fff;
         color: $color3;
         padding: 20px;
@@ -766,6 +766,50 @@ html, body, .viewport {
     top: 10px;
     left: 10px;
     cursor: pointer;
+}
+
+//Agreement
+.agreementNotice {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    background: #fff;
+    color: $color1;
+    border-radius: 20px;
+    padding: 20px;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1005;
+    align-items: flex-start;
+    
+    .agreementBody {
+        align-items: center;
+        align-self: flex-start;
+        margin-top: 20px;
+        width: 100%;
+
+        h3 {
+            font-size: 2.4rem;
+            margin: 0;
+        }
+    
+        p {
+            font-size: 1rem;
+            margin-top: 10px;
+            margin-bottom: 0;
+            padding-top: 0;
+            line-height: 1.6;
+        }
+    
+        .agreementLinks {
+            display: block;
+            font-family: 'Segoe UI Bold', Helvetica, Arial, sans-serif;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    }
 }
 
 //Walktrough
@@ -1104,6 +1148,18 @@ html, body, .viewport {
         }
     }
 
+    .agreementNotice {
+        width: 540px;
+        margin: 0 auto;
+
+        .agreementBody {
+
+            h3 {
+                font-size: 3rem;
+            }
+        }
+    }
+
     .walkthrough {
         width: 540px;
         margin: 0 auto;
@@ -1180,6 +1236,10 @@ html, body, .viewport {
             .aboutNotice {
                 width: 740px;
             }
+        }
+
+        .agreementNotice {
+            width: 740px;
         }
 
         .walkthrough {
