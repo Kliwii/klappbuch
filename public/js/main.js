@@ -1287,3 +1287,33 @@ aboutButtonTutorial.addEventListener("click", function() {
   walkthrough.style.display = "flex";
   walkthrough.style.opacity = "1";
 });
+
+//Agreement Notice
+let agreementNotice = document.getElementById("agreementNotice");
+let termsOfUseLinkAgreement = document.getElementById("termsOfUseLinkAgreement");
+let privacyPolicyLinkAgreement = document.getElementById("privacyPolicyLinkAgreement");
+let agreementNoticeClose = document.getElementById("agreementNoticeClose");
+
+agreementNoticeClose.addEventListener("click", function() {
+  agreementNotice.style.display = "none";
+  agreementNotice.style.opacity = "0";
+});
+
+termsOfUseLinkAgreement.addEventListener("click", function() {
+  aboutNotice.style.display = "block";
+  aboutNotice.style.opacity = "1";
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageNutzungsbedingungen.style.display = "block";
+  aboutPageNutzungsbedingungen.style.opacity = "1";
+});
+
+privacyPolicyLinkAgreement.addEventListener("click", function() {
+  aboutNotice.style.display = "block";
+  aboutNotice.style.opacity = "1";
+  aboutNoticeOverview.style.display = "none";
+  aboutNoticeOverview.style.opacity = "0";
+  aboutPageDatenschutz.style.display = "block";
+  aboutPageDatenschutz.style.opacity = "1";
+});
+
